@@ -79,7 +79,7 @@ class Gridly
         column = i
 
     for i in [column ... column + size]
-      columns[i] = height + ($element.data('height') || $element.height() + @settings.gutter)
+      columns[i] = height + ($element.data('height') || $element.height()) + @settings.gutter
 
     x: (column * (@settings.base + @settings.gutter))
     y: height

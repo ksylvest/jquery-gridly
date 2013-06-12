@@ -140,7 +140,7 @@ Copyright 2013 Kevin Sylvestre
         }
       }
       for (i = _j = column, _ref1 = column + size; column <= _ref1 ? _j < _ref1 : _j > _ref1; i = column <= _ref1 ? ++_j : --_j) {
-        columns[i] = height + ($element.data('height') || $element.height() + this.settings.gutter);
+        columns[i] = height + ($element.data('height') || $element.height()) + this.settings.gutter;
       }
       return {
         x: column * (this.settings.base + this.settings.gutter),
