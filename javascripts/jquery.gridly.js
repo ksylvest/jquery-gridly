@@ -96,14 +96,20 @@ Copyright 2013 Kevin Sylvestre
       return this.grid.push();
     };
 
-    Gridly.prototype.compare = function($dragging, $static) {
-      var position, x, y;
-      if ($draggging === $static) {
-        return 'equal';
+    Gridly.prototype.compare = function(d, s) {
+      if (d.y > s.y + Math.max(s.h, d.h)) {
+        return -1;
       }
-      position = $element.position();
-      x = $element.position().left + $element.width() / 2;
-      return y = $element.position().top + $element.height() / 2;
+      if (s.y > d.y + Math.max(s.h, d.h)) {
+        return +1;
+      }
+      if ((d.y + (d.w / 2)) > (s.y + (s.w / 2))) {
+        return -1;
+      }
+      if ((s.y + (s.w / 2)) > (d.y + (d.w / 2))) {
+        return +1;
+      }
+      return 0;
     };
 
     Gridly.prototype.draggable = function() {
@@ -115,12 +121,28 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.drag = function(event, ui) {
-      var $element, position, x, y;
-      $element = $(event.target);
-      position = $element.position();
-      x = $element.position().left + $element.width() / 2;
-      y = $element.position().top + $element.height() / 2;
-      return this.structure(this.$('> *'));
+      var $dragging, $elements, coordinate, i, index, position, positions, _i, _ref;
+      $dragging = $(event.target);
+      $elements = this.$('> *');
+      positions = this.structure($elements).positions;
+      index = $elements.index(event.target);
+      coordinate = {
+        x: $dragging.position().left,
+        y: $dragging.position().top,
+        w: $dragging.width(),
+        h: $dragging.height()
+      };
+      for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+        if (index === i) {
+          continue;
+        }
+        position = positions[i];
+        if (this.compare(coordinate, position > 0)) {
+          index = i;
+          break;
+        }
+      }
+      return console.debug(index);
     };
 
     Gridly.prototype.stop = function(event, ui) {
@@ -168,7 +190,6 @@ Copyright 2013 Kevin Sylvestre
         $element = $(element);
         position = _this.position($element, columns);
         return positions.push({
-          $element: $element,
           x: position.x,
           y: position.y,
           w: $element.width(),

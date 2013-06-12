@@ -44,24 +44,43 @@ class Gridly
   grow: ->
     @grid.push()
 
-  compare: ($dragging, $static) ->
-    return 'equal' if $draggging is $static
-    position = $element.position()
-    x = $element.position().left + $element.width() / 2
-    y = $element.position().top + $element.height() / 2
+  compare: (d, s) ->
+    return -1 if d.y > s.y + Math.max(s.h, d.h)
+    return +1 if s.y > d.y + Math.max(s.h, d.h)
+    return -1 if (d.y + (d.w / 2)) > (s.y + (s.w / 2))
+    return +1 if (s.y + (s.w / 2)) > (d.y + (d.w / 2))
+    return 0
 
-  draggable: () ->
+  draggable: ->
     @$('> *').draggable
       zIndex: 800
       drag: @drag
       stop: @stop
 
   drag: (event, ui) =>
-    $element = $(event.target)
-    position = $element.position()
-    x = $element.position().left + $element.width() / 2
-    y = $element.position().top + $element.height() / 2
-    @structure(@$('> *'))
+    $dragging = $(event.target)
+    $elements = @$('> *')
+    positions = @structure($elements).positions
+    index = $elements.index(event.target)
+
+    coordinate = 
+      x: $dragging.position().left
+      y: $dragging.position().top
+      w: $dragging.width()
+      h: $dragging.height()
+    
+    for i in [0 ... $elements.length]
+      continue if index is i
+
+      position = positions[i]
+
+      if @compare coordinate, position > 0
+        index = i
+        break
+
+    console.debug index
+    # console.debug($elements[..@_index] + [$elements[@_index]] + $elements[@_index..])
+    # $elements = $elements[..@_index] + [$elements[@_index]] + $elements[@_index..]
 
   stop: (event, ui) =>
     setTimeout @layout, 0 # Animate
@@ -93,7 +112,6 @@ class Gridly
 
       position = @position($element, columns)
       positions.push
-        $element: $element
         x: position.x
         y: position.y
         w: $element.width()
