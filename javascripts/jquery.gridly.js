@@ -57,7 +57,8 @@ Copyright 2013 Kevin Sylvestre
     Gridly.settings = {
       base: 60,
       gutter: 20,
-      columns: 12
+      columns: 12,
+      draggable: 'enable'
     };
 
     Gridly.gridly = function($el, options) {
@@ -73,6 +74,14 @@ Copyright 2013 Kevin Sylvestre
       }
       this.layout = __bind(this.layout, this);
 
+      this.structure = __bind(this.structure, this);
+
+      this.position = __bind(this.position, this);
+
+      this.stop = __bind(this.stop, this);
+
+      this.drag = __bind(this.drag, this);
+
       this.$ = __bind(this.$, this);
 
       this.$el = $el;
@@ -87,10 +96,65 @@ Copyright 2013 Kevin Sylvestre
       return this.grid.push();
     };
 
-    Gridly.prototype.layout = function() {
-      var columns, i,
+    Gridly.prototype.compare = function($dragging, $static) {
+      var position, x, y;
+      if ($draggging === $static) {
+        return 'equal';
+      }
+      position = $element.position();
+      x = $element.position().left + $element.width() / 2;
+      return y = $element.position().top + $element.height() / 2;
+    };
+
+    Gridly.prototype.draggable = function() {
+      return this.$('> *').draggable({
+        zIndex: 800,
+        drag: this.drag,
+        stop: this.stop
+      });
+    };
+
+    Gridly.prototype.drag = function(event, ui) {
+      var $element, position, x, y;
+      $element = $(event.target);
+      position = $element.position();
+      x = $element.position().left + $element.width() / 2;
+      y = $element.position().top + $element.height() / 2;
+      return this.structure(this.$('> *'));
+    };
+
+    Gridly.prototype.stop = function(event, ui) {
+      return setTimeout(this.layout, 0);
+    };
+
+    Gridly.prototype.position = function($element, columns) {
+      var column, height, i, max, size, _i, _j, _ref, _ref1;
+      size = (($element.data('width') || $element.width()) + this.settings.gutter) / (this.settings.base + this.settings.gutter);
+      height = Infinity;
+      column = 0;
+      for (i = _i = 0, _ref = columns.length - size; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+        max = Math.max.apply(Math, columns.slice(i, i + size));
+        if (max < height) {
+          height = max;
+          column = i;
+        }
+      }
+      for (i = _j = column, _ref1 = column + size; column <= _ref1 ? _j < _ref1 : _j > _ref1; i = column <= _ref1 ? ++_j : --_j) {
+        columns[i] = height + ($element.data('height') || $element.height() + this.settings.gutter);
+      }
+      return {
+        x: column * (this.settings.base + this.settings.gutter),
+        y: height
+      };
+    };
+
+    Gridly.prototype.structure = function($elements) {
+      var columns, i, positions,
         _this = this;
-      this.$el.offset();
+      if ($elements == null) {
+        $elements = this.$('> *');
+      }
+      positions = [];
       columns = (function() {
         var _i, _ref, _results;
         _results = [];
@@ -99,30 +163,41 @@ Copyright 2013 Kevin Sylvestre
         }
         return _results;
       }).call(this);
-      this.$('> *').each(function(index, element) {
-        var $element, column, height, max, size, _i, _j, _ref, _ref1;
+      $elements.each(function(index, element) {
+        var $element, position;
         $element = $(element);
-        size = (($element.data('width') || $element.width()) + _this.settings.gutter) / (_this.settings.base + _this.settings.gutter);
-        height = Infinity;
-        column = 0;
-        for (i = _i = 0, _ref = columns.length - size; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          max = Math.max.apply(Math, columns.slice(i, i + size));
-          if (max < height) {
-            height = max;
-            column = i;
-          }
-        }
-        for (i = _j = column, _ref1 = column + size; column <= _ref1 ? _j < _ref1 : _j > _ref1; i = column <= _ref1 ? ++_j : --_j) {
-          columns[i] = height + ($element.data('height') || $element.height()) + _this.settings.gutter;
-        }
+        position = _this.position($element, columns);
+        return positions.push({
+          $element: $element,
+          x: position.x,
+          y: position.y,
+          w: $element.width(),
+          h: $element.height()
+        });
+      });
+      return {
+        height: Math.max.apply(Math, columns),
+        positions: positions
+      };
+    };
+
+    Gridly.prototype.layout = function() {
+      var $elements, structure,
+        _this = this;
+      $elements = this.$('> *');
+      structure = this.structure($elements);
+      $elements.each(function(index, element) {
+        var $element, position;
+        $element = $(element);
+        position = structure.positions[index];
         return $element.css({
           position: 'absolute',
-          left: column * (_this.settings.base + _this.settings.gutter),
-          top: height
+          left: position.x,
+          top: position.y
         });
       });
       return this.$el.css({
-        height: Math.max.apply(Math, columns)
+        height: structure.height
       });
     };
 

@@ -2,12 +2,12 @@
 (function() {
 
   $(function() {
-    var gridly;
-    gridly = $('.gridly').gridly({
+    $('.gridly').gridly({
       base: 60,
       gutter: 20,
       columns: 12
     });
+    $('.gridly').gridly('draggable');
     return $('.gridly .brick').click(function(event) {
       var size;
       event.preventDefault();

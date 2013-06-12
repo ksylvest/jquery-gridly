@@ -1,5 +1,6 @@
 $ -> 
-  gridly = $('.gridly').gridly base: 60, gutter: 20, columns: 12
+  $('.gridly').gridly base: 60, gutter: 20, columns: 12
+  $('.gridly').gridly 'draggable'
 
   $('.gridly .brick').click (event) ->
     event.preventDefault()
