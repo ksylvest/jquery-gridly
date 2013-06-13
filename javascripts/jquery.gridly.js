@@ -137,25 +137,29 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.start = function(event, ui) {
-      var $dragging, $element, $elements, i, _i, _ref, _results;
+      var $dragging, $element, $elements, i, _i, _ref;
       $dragging = $(event.target);
-      $elements = this.$('> *');
-      $dragging.data('sort', 'target');
-      _results = [];
+      $elements = this.$sorted();
       for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
         $element = $($elements[i]);
-        _results.push($element.data('position', i));
+        $element.data('position', i);
       }
-      return _results;
+      return setTimeout(this.layout, 0);
     };
 
-    Gridly.prototype.stop = function(event, ui) {};
+    Gridly.prototype.stop = function(event, ui) {
+      var $dragging, $element, $elements, i, _i, _ref;
+      $dragging = $(event.target);
+      $elements = this.$sorted();
+      for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        $element = $($elements[i]);
+        $element.data('positoin', i);
+      }
+      return setTimeout(this.layout, 0);
+    };
 
     Gridly.prototype.$sorted = function($elements) {
-      if ($elements == null) {
-        $elements = this.$('> *');
-      }
-      return $elements.sort(function(a, b) {
+      return ($elements || this.$('> *')).sort(function(a, b) {
         var aVal, bVal;
         aVal = parseInt($(a).data('position'));
         bVal = parseInt($(b).data('position'));
@@ -170,7 +174,8 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.drag = function(event, ui) {
-      var $dragging, $element, $elements, coordinate, i, index, original, position, positions, _i, _ref;
+      var $dragging, $element, $elements, coordinate, delta, i, index, original, position, positions, _i, _ref;
+      delta = 0.5;
       $dragging = $(event.target);
       $elements = this.$sorted();
       positions = this.structure($elements).positions;
@@ -194,8 +199,7 @@ Copyright 2013 Kevin Sylvestre
         }
       }
       if (index !== original) {
-        console.debug(index);
-        $dragging.data('position', index + 0.5);
+        $dragging.data('position', index + delta);
         return this.layout(this.$sorted());
       }
     };
@@ -225,7 +229,7 @@ Copyright 2013 Kevin Sylvestre
       var columns, i, positions,
         _this = this;
       if ($elements == null) {
-        $elements = this.$('> *');
+        $elements = this.$sorted();
       }
       positions = [];
       columns = (function() {
@@ -257,7 +261,7 @@ Copyright 2013 Kevin Sylvestre
       var structure,
         _this = this;
       if ($elements == null) {
-        $elements = this.$('> *');
+        $elements = this.$sorted();
       }
       structure = this.structure($elements);
       $elements.each(function(index, element) {

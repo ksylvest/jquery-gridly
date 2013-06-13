@@ -67,17 +67,22 @@ class Gridly
 
   start: (event, ui) =>
     $dragging = $(event.target)
-    $elements = @$('> *')
-    $dragging.data('sort', 'target')
+    $elements = @$sorted()
     for i in [0 .. $elements.length]
       $element = $($elements[i])
       $element.data('position', i)
+    setTimeout @layout, 0
 
   stop: (event, ui) =>
-    return
+    $dragging = $(event.target)
+    $elements = @$sorted()
+    for i in [0 .. $elements.length]
+      $element = $($elements[i])
+      $element.data('positoin', i)
+    setTimeout @layout, 0
 
-  $sorted: ($elements = @$('> *')) =>
-    $elements.sort (a,b) ->
+  $sorted: ($elements) =>
+    ($elements || @$('> *')).sort (a,b) ->
       aVal = parseInt($(a).data('position'))
       bVal = parseInt($(b).data('position'))
       return -1 if aVal < bVal
@@ -85,6 +90,7 @@ class Gridly
       return 0
 
   drag: (event, ui) =>
+    delta = 0.5
     $dragging = $(event.target)
     $elements = @$sorted()
     positions = @structure($elements).positions
@@ -107,8 +113,7 @@ class Gridly
         break
 
     unless index is original
-      console.debug(index)
-      $dragging.data('position', index + 0.5)
+      $dragging.data('position', index + delta)
       @layout(@$sorted())
 
   position: ($element, columns) =>
@@ -129,7 +134,7 @@ class Gridly
     x: (column * (@settings.base + @settings.gutter))
     y: height
 
-  structure: ($elements = @$('> *')) =>
+  structure: ($elements = @$sorted()) =>
     positions = []
     columns = (0 for i in [0 .. @settings.columns])
 
@@ -146,7 +151,7 @@ class Gridly
     height: Math.max columns...
     positions: positions
 
-  layout: ($elements = @$('> *')) =>
+  layout: ($elements = @$sorted()) =>
     structure = @structure($elements)
 
     $elements.each (index, element) =>
