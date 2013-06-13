@@ -106,8 +106,10 @@ class Gridly
         index = i
         break
 
-    $dragging.data('position', index + 0.5)
-    @layout(@$sorted())
+    unless index is original
+      console.debug(index)
+      $dragging.data('position', index + 0.5)
+      @layout(@$sorted())
 
   position: ($element, columns) =>
     size = (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)

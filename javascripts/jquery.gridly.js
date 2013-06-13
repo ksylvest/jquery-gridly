@@ -193,8 +193,11 @@ Copyright 2013 Kevin Sylvestre
           break;
         }
       }
-      $dragging.data('position', index + 0.5);
-      return this.layout(this.$sorted());
+      if (index !== original) {
+        console.debug(index);
+        $dragging.data('position', index + 0.5);
+        return this.layout(this.$sorted());
+      }
     };
 
     Gridly.prototype.position = function($element, columns) {
