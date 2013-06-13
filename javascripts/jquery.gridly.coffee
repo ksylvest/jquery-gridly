@@ -37,6 +37,12 @@ class Gridly
   constructor: ($el, settings = {}) ->
     @$el = $el
     @settings = $.extend {}, Gridly.settings, settings
+    @ordinalize(@$('> *'))
+
+  ordinalize: ($elements) =>
+    for i in [0 .. $elements.length]
+      $element = $($elements[i])
+      $element.data('position', i)
 
   $: (selector) =>
     @$el.find(selector)
@@ -67,18 +73,12 @@ class Gridly
 
   start: (event, ui) =>
     $dragging = $(event.target)
-    $elements = @$sorted()
-    for i in [0 .. $elements.length]
-      $element = $($elements[i])
-      $element.data('position', i)
+    @ordinalize(@$sorted())
     setTimeout @layout, 0
 
   stop: (event, ui) =>
     $dragging = $(event.target)
-    $elements = @$sorted()
-    for i in [0 .. $elements.length]
-      $element = $($elements[i])
-      $element.data('positoin', i)
+    @ordinalize(@$sorted())
     setTimeout @layout, 0
 
   $sorted: ($elements) =>

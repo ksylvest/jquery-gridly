@@ -88,9 +88,22 @@ Copyright 2013 Kevin Sylvestre
 
       this.$ = __bind(this.$, this);
 
+      this.ordinalize = __bind(this.ordinalize, this);
+
       this.$el = $el;
       this.settings = $.extend({}, Gridly.settings, settings);
+      this.ordinalize(this.$('> *'));
     }
+
+    Gridly.prototype.ordinalize = function($elements) {
+      var $element, i, _i, _ref, _results;
+      _results = [];
+      for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        $element = $($elements[i]);
+        _results.push($element.data('position', i));
+      }
+      return _results;
+    };
 
     Gridly.prototype.$ = function(selector) {
       return this.$el.find(selector);
@@ -137,24 +150,16 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.start = function(event, ui) {
-      var $dragging, $element, $elements, i, _i, _ref;
+      var $dragging;
       $dragging = $(event.target);
-      $elements = this.$sorted();
-      for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        $element = $($elements[i]);
-        $element.data('position', i);
-      }
+      this.ordinalize(this.$sorted());
       return setTimeout(this.layout, 0);
     };
 
     Gridly.prototype.stop = function(event, ui) {
-      var $dragging, $element, $elements, i, _i, _ref;
+      var $dragging;
       $dragging = $(event.target);
-      $elements = this.$sorted();
-      for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        $element = $($elements[i]);
-        $element.data('positoin', i);
-      }
+      this.ordinalize(this.$sorted());
       return setTimeout(this.layout, 0);
     };
 
