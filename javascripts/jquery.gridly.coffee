@@ -45,23 +45,51 @@ class Gridly
     @grid.push()
 
   compare: (d, s) ->
-    return -1 if d.y > s.y + Math.max(s.h, d.h)
-    return +1 if s.y > d.y + Math.max(s.h, d.h)
-    return -1 if (d.y + (d.w / 2)) > (s.y + (s.w / 2))
-    return +1 if (s.y + (s.w / 2)) > (d.y + (d.w / 2))
+    return +1 if d.y > s.y + s.h
+    return -1 if s.y > d.y + d.h
+    return +1 if (d.x + (d.w / 2)) > (s.x + (s.w / 2))
+    return -1 if (s.x + (s.w / 2)) > (d.x + (d.w / 2))
     return 0
 
   draggable: ->
     @$('> *').draggable
       zIndex: 800
       drag: @drag
+      start: @start
       stop: @stop
+
+  swap: (array, from, to) ->
+    element = array[from]
+    array.splice(from, 1)
+    to-- if from < to
+    array.splice(to, 0, element)
+    return array
+
+  start: (event, ui) =>
+    $dragging = $(event.target)
+    $elements = @$('> *')
+    $dragging.data('sort', 'target')
+    for i in [0 .. $elements.length]
+      $element = $($elements[i])
+      $element.data('position', i)
+
+  stop: (event, ui) =>
+    return
+
+  $sorted: ($elements = @$('> *')) =>
+    $elements.sort (a,b) ->
+      aVal = parseInt($(a).data('position'))
+      bVal = parseInt($(b).data('position'))
+      return -1 if aVal < bVal
+      return +1 if aVal > bVal
+      return 0
 
   drag: (event, ui) =>
     $dragging = $(event.target)
-    $elements = @$('> *')
+    $elements = @$sorted()
     positions = @structure($elements).positions
-    index = $elements.index(event.target)
+    index = $dragging.data('position')
+    original = index
 
     coordinate = 
       x: $dragging.position().left
@@ -70,20 +98,16 @@ class Gridly
       h: $dragging.height()
     
     for i in [0 ... $elements.length]
-      continue if index is i
+      $element = $($elements[i])
+      continue if $element.is($dragging)
 
       position = positions[i]
-
-      if @compare coordinate, position > 0
+      if @compare(coordinate, position) < 0
         index = i
         break
 
-    console.debug index
-    # console.debug($elements[..@_index] + [$elements[@_index]] + $elements[@_index..])
-    # $elements = $elements[..@_index] + [$elements[@_index]] + $elements[@_index..]
-
-  stop: (event, ui) =>
-    setTimeout @layout, 0 # Animate
+    $dragging.data('position', index + 0.5)
+    @layout(@$sorted())
 
   position: ($element, columns) =>
     size = (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
@@ -120,8 +144,7 @@ class Gridly
     height: Math.max columns...
     positions: positions
 
-  layout: =>
-    $elements = @$('> *')
+  layout: ($elements = @$('> *')) =>
     structure = @structure($elements)
 
     $elements.each (index, element) =>
