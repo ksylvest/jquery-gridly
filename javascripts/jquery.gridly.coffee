@@ -29,15 +29,18 @@ class Gridly
     base: 60
     gutter: 20
     columns: 12
-    draggable: 'enable'
+    draggable: true
 
   @gridly: ($el, options = {}) ->
-    new Gridly($el, options)
+    @existing ?= {}
+    @existing[$el[0]] ?= new Gridly($el, options)
+    return @existing[$el[0]]
 
   constructor: ($el, settings = {}) ->
     @$el = $el
     @settings = $.extend {}, Gridly.settings, settings
     @ordinalize(@$('> *'))
+    @draggable() if @settings.draggable
 
   ordinalize: ($elements) =>
     for i in [0 .. $elements.length]
@@ -47,29 +50,19 @@ class Gridly
   $: (selector) =>
     @$el.find(selector)
 
-  grow: ->
-    @grid.push()
-
-  compare: (d, s) ->
+  compare: (d, s) =>
     return +1 if d.y > s.y + s.h
     return -1 if s.y > d.y + d.h
     return +1 if (d.x + (d.w / 2)) > (s.x + (s.w / 2))
     return -1 if (s.x + (s.w / 2)) > (d.x + (d.w / 2))
     return 0
 
-  draggable: ->
+  draggable: =>
     @$('> *').draggable
       zIndex: 800
       drag: @drag
       start: @start
       stop: @stop
-
-  swap: (array, from, to) ->
-    element = array[from]
-    array.splice(from, 1)
-    to-- if from < to
-    array.splice(to, 0, element)
-    return array
 
   start: (event, ui) =>
     $dragging = $(event.target)
@@ -80,6 +73,7 @@ class Gridly
     $dragging = $(event.target)
     @ordinalize(@$sorted())
     setTimeout @layout, 0
+    @settings?.callbacks?.reordered(@)
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->

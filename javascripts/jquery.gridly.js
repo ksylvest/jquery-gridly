@@ -58,14 +58,21 @@ Copyright 2013 Kevin Sylvestre
       base: 60,
       gutter: 20,
       columns: 12,
-      draggable: 'enable'
+      draggable: true
     };
 
     Gridly.gridly = function($el, options) {
+      var _base, _name, _ref, _ref1;
       if (options == null) {
         options = {};
       }
-      return new Gridly($el, options);
+      if ((_ref = this.existing) == null) {
+        this.existing = {};
+      }
+      if ((_ref1 = (_base = this.existing)[_name = $el[0]]) == null) {
+        _base[_name] = new Gridly($el, options);
+      }
+      return this.existing[$el[0]];
     };
 
     function Gridly($el, settings) {
@@ -86,6 +93,10 @@ Copyright 2013 Kevin Sylvestre
 
       this.start = __bind(this.start, this);
 
+      this.draggable = __bind(this.draggable, this);
+
+      this.compare = __bind(this.compare, this);
+
       this.$ = __bind(this.$, this);
 
       this.ordinalize = __bind(this.ordinalize, this);
@@ -93,6 +104,9 @@ Copyright 2013 Kevin Sylvestre
       this.$el = $el;
       this.settings = $.extend({}, Gridly.settings, settings);
       this.ordinalize(this.$('> *'));
+      if (this.settings.draggable) {
+        this.draggable();
+      }
     }
 
     Gridly.prototype.ordinalize = function($elements) {
@@ -107,10 +121,6 @@ Copyright 2013 Kevin Sylvestre
 
     Gridly.prototype.$ = function(selector) {
       return this.$el.find(selector);
-    };
-
-    Gridly.prototype.grow = function() {
-      return this.grid.push();
     };
 
     Gridly.prototype.compare = function(d, s) {
@@ -138,17 +148,6 @@ Copyright 2013 Kevin Sylvestre
       });
     };
 
-    Gridly.prototype.swap = function(array, from, to) {
-      var element;
-      element = array[from];
-      array.splice(from, 1);
-      if (from < to) {
-        to--;
-      }
-      array.splice(to, 0, element);
-      return array;
-    };
-
     Gridly.prototype.start = function(event, ui) {
       var $dragging;
       $dragging = $(event.target);
@@ -157,10 +156,11 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.stop = function(event, ui) {
-      var $dragging;
+      var $dragging, _ref, _ref1;
       $dragging = $(event.target);
       this.ordinalize(this.$sorted());
-      return setTimeout(this.layout, 0);
+      setTimeout(this.layout, 0);
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? _ref1.reordered(this) : void 0 : void 0;
     };
 
     Gridly.prototype.$sorted = function($elements) {

@@ -3,11 +3,12 @@
 
   $(function() {
     $('.gridly').gridly({
-      base: 60,
-      gutter: 20,
-      columns: 12
+      callbacks: {
+        reordered: function(gridly) {
+          return console.debug('reordered', gridly);
+        }
+      }
     });
-    $('.gridly').gridly('draggable');
     return $('.gridly .brick').click(function(event) {
       var size;
       event.preventDefault();
