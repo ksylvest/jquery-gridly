@@ -94,8 +94,8 @@ class Gridly
     coordinate = 
       x: $dragging.position().left
       y: $dragging.position().top
-      w: $dragging.width()
-      h: $dragging.height()
+      w: $dragging.data('width')  || $dragging.width()
+      h: $dragging.data('height') || $dragging.height()
     
     for i in [0 ... $elements.length]
       $element = $($elements[i])
@@ -139,8 +139,8 @@ class Gridly
       positions.push
         x: position.x
         y: position.y
-        w: $element.width()
-        h: $element.height()
+        w: $element.data('width') || $element.width()
+        h: $element.data('height') || $element.height()
 
     height: Math.max columns...
     positions: positions

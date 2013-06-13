@@ -189,8 +189,8 @@ Copyright 2013 Kevin Sylvestre
       coordinate = {
         x: $dragging.position().left,
         y: $dragging.position().top,
-        w: $dragging.width(),
-        h: $dragging.height()
+        w: $dragging.data('width') || $dragging.width(),
+        h: $dragging.data('height') || $dragging.height()
       };
       for (i = _i = 0, _ref = $elements.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
         $element = $($elements[i]);
@@ -252,8 +252,8 @@ Copyright 2013 Kevin Sylvestre
         return positions.push({
           x: position.x,
           y: position.y,
-          w: $element.width(),
-          h: $element.height()
+          w: $element.data('width') || $element.width(),
+          h: $element.data('height') || $element.height()
         });
       });
       return {
