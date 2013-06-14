@@ -40,7 +40,6 @@ class Gridly
     @$el = $el
     @settings = $.extend {}, Gridly.settings, settings
     @ordinalize(@$('> *'))
-    @draggable() if @settings.draggable
 
   ordinalize: ($elements) =>
     for i in [0 .. $elements.length]
@@ -64,6 +63,9 @@ class Gridly
       start: @start
       stop: @stop
 
+  stationary: =>
+    @$('> *').draggable('destroy')
+
   start: (event, ui) =>
     $dragging = $(event.target)
     @ordinalize(@$sorted())
@@ -77,10 +79,18 @@ class Gridly
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->
-      aVal = parseInt($(a).data('position'))
-      bVal = parseInt($(b).data('position'))
-      return -1 if aVal < bVal
-      return +1 if aVal > bVal
+      $a = $(a)
+      $b = $(b)
+      aPosition = $a.data('position')
+      bPosition = $b.data('position')
+      aPositionInt = parseInt(aPosition)
+      bPositionInt = parseInt(bPosition)
+      return -1 if aPosition? and not bPosition?
+      return +1 if bPosition? and not aPosition?
+      return -1 if not aPosition and not bPosition and $a.index() < $b.index()
+      return +1 if not bPosition and not aPosition and $b.index() < $a.index()
+      return -1 if aPositionInt < bPositionInt
+      return +1 if bPositionInt < aPositionInt
       return 0
 
   drag: (event, ui) =>
