@@ -158,18 +158,19 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.start = function(event, ui) {
-      var $dragging;
-      $dragging = $(event.target);
-      this.ordinalize(this.$sorted());
-      return setTimeout(this.layout, 0);
+      var $elements, _ref, _ref1, _ref2;
+      $elements = this.$sorted();
+      this.ordinalize($elements);
+      setTimeout(this.layout, 0);
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? (_ref2 = _ref1.dragging) != null ? typeof _ref2.started === "function" ? _ref2.started($elements) : void 0 : void 0 : void 0 : void 0;
     };
 
     Gridly.prototype.stop = function(event, ui) {
-      var $dragging, _ref, _ref1;
-      $dragging = $(event.target);
-      this.ordinalize(this.$sorted());
+      var $elements, _ref, _ref1, _ref2;
+      $elements = this.$sorted();
+      this.ordinalize($elements);
       setTimeout(this.layout, 0);
-      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? _ref1.reordered(this) : void 0 : void 0;
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? (_ref2 = _ref1.dragging) != null ? typeof _ref2.stopped === "function" ? _ref2.stopped($elements) : void 0 : void 0 : void 0 : void 0;
     };
 
     Gridly.prototype.$sorted = function($elements) {
@@ -204,7 +205,7 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.drag = function(event, ui) {
-      var $dragging, $element, $elements, element, i, index, original, positions, _i, _j, _len, _ref, _ref1;
+      var $dragging, $elements, $reordered, element, i, index, original, positions, _i, _j, _len, _ref, _ref1, _ref2;
       $dragging = $(event.target);
       $elements = this.$sorted();
       positions = this.structure($elements).positions;
@@ -220,11 +221,17 @@ Copyright 2013 Kevin Sylvestre
         element.h = $dragging.data('height') || $dragging.height();
       }
       positions.sort(this.compare);
-      for (i = _j = 0, _ref1 = positions.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-        $element = positions[i].$element;
-        this.reordinalize($element, i);
+      $elements = positions.map(function(position) {
+        return position.$element;
+      });
+      $reordered = (_ref1 = this.settings.callbacks) != null ? typeof _ref1.reorder === "function" ? _ref1.reorder($elements) : void 0 : void 0;
+      if ($reordered) {
+        $elements = $reordered;
       }
-      return this.layout(this.$sorted());
+      for (i = _j = 0, _ref2 = $elements.length; 0 <= _ref2 ? _j < _ref2 : _j > _ref2; i = 0 <= _ref2 ? ++_j : --_j) {
+        this.reordinalize($($elements[i]), i);
+      }
+      return this.layout();
     };
 
     Gridly.prototype.position = function($element, columns) {
@@ -249,8 +256,7 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.structure = function($elements) {
-      var columns, i, positions,
-        _this = this;
+      var $element, columns, i, index, position, positions, _i, _ref;
       if ($elements == null) {
         $elements = this.$sorted();
       }
@@ -263,41 +269,40 @@ Copyright 2013 Kevin Sylvestre
         }
         return _results;
       }).call(this);
-      $elements.each(function(index, element) {
-        var $element, position;
-        $element = $(element);
-        position = _this.position($element, columns);
-        return positions.push({
+      for (index = _i = 0, _ref = $elements.length; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
+        $element = $($elements[index]);
+        position = this.position($element, columns);
+        positions.push({
           x: position.x,
           y: position.y,
           w: $element.data('width') || $element.width(),
           h: $element.data('height') || $element.height(),
           $element: $element
         });
-      });
+      }
       return {
         height: Math.max.apply(Math, columns),
         positions: positions
       };
     };
 
-    Gridly.prototype.layout = function($elements) {
-      var structure,
-        _this = this;
-      if ($elements == null) {
-        $elements = this.$sorted();
+    Gridly.prototype.layout = function() {
+      var $element, $elements, $reordered, index, position, structure, _i, _ref, _ref1;
+      $elements = this.$sorted();
+      $reordered = (_ref = this.settings.callbacks) != null ? typeof _ref.reorder === "function" ? _ref.reorder($elements) : void 0 : void 0;
+      if ($reordered) {
+        $elements = $reordered;
       }
       structure = this.structure($elements);
-      $elements.each(function(index, element) {
-        var $element, position;
-        $element = $(element);
+      for (index = _i = 0, _ref1 = $elements.length; 0 <= _ref1 ? _i < _ref1 : _i > _ref1; index = 0 <= _ref1 ? ++_i : --_i) {
+        $element = $($elements[index]);
         position = structure.positions[index];
-        return $element.css({
+        $element.css({
           position: 'absolute',
           left: position.x,
           top: position.y
         });
-      });
+      }
       return this.$el.css({
         height: structure.height
       });

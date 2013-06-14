@@ -70,15 +70,16 @@ class Gridly
     @$('> *').draggable('destroy')
 
   start: (event, ui) =>
-    $dragging = $(event.target)
-    @ordinalize(@$sorted())
+    $elements = @$sorted()
+    @ordinalize($elements)
     setTimeout @layout, 0
+    @settings?.callbacks?.dragging?.started?($elements)
 
   stop: (event, ui) =>
-    $dragging = $(event.target)
-    @ordinalize(@$sorted())
+    $elements = @$sorted()
+    @ordinalize($elements)
     setTimeout @layout, 0
-    @settings?.callbacks?.reordered(@)
+    @settings?.callbacks?.dragging?.stopped?($elements)
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->
@@ -110,11 +111,14 @@ class Gridly
 
     positions.sort @compare
 
-    for i in [0 ... positions.length]
-      $element = positions[i].$element
-      @reordinalize($element, i)
+    $elements = positions.map (position) -> position.$element
+    $reordered = @settings.callbacks?.reorder?($elements)
+    $elements = $reordered if $reordered
 
-    @layout(@$sorted())
+    for i in [0...$elements.length]
+      @reordinalize($($elements[i]), i)
+
+    @layout()
 
   position: ($element, columns) =>
     size = (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
@@ -138,8 +142,8 @@ class Gridly
     positions = []
     columns = (0 for i in [0 .. @settings.columns])
 
-    $elements.each (index, element) =>
-      $element = $(element)
+    for index in [0 ... $elements.length]
+      $element = $($elements[index])
 
       position = @position($element, columns)
       positions.push
@@ -152,11 +156,15 @@ class Gridly
     height: Math.max columns...
     positions: positions
 
-  layout: ($elements = @$sorted()) =>
+  layout: () =>
+    $elements = @$sorted()
+    $reordered = @settings.callbacks?.reorder?($elements)
+    $elements = $reordered if $reordered
+
     structure = @structure($elements)
 
-    $elements.each (index, element) =>
-      $element = $(element)
+    for index in [0 ... $elements.length]
+      $element = $($elements[index])
       position = structure.positions[index]
 
       $element.css
