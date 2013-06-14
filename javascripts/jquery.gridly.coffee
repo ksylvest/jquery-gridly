@@ -46,6 +46,9 @@ class Gridly
       $element = $($elements[i])
       $element.data('position', i)
 
+  reordinalize: ($element, position) =>
+    $element.data('position', position)
+
   $: (selector) =>
     @$el.find(selector)
 
@@ -94,31 +97,24 @@ class Gridly
       return 0
 
   drag: (event, ui) =>
-    delta = 0.5
     $dragging = $(event.target)
     $elements = @$sorted()
     positions = @structure($elements).positions
-    index = $dragging.data('position')
-    original = index
+    original = index = $dragging.data('position')
 
-    coordinate = 
-      x: $dragging.position().left
-      y: $dragging.position().top
-      w: $dragging.data('width')  || $dragging.width()
-      h: $dragging.data('height') || $dragging.height()
-    
-    for i in [0 ... $elements.length]
-      $element = $($elements[i])
-      continue if $element.is($dragging)
+    for element in positions.filter((position) -> position.$element.is($dragging))
+      element.x = $dragging.position().left
+      element.y = $dragging.position().top
+      element.w = $dragging.data('width')  || $dragging.width()
+      element.h = $dragging.data('height') || $dragging.height()
 
-      position = positions[i]
-      if @compare(coordinate, position) < 0
-        index = i
-        break
+    positions.sort @compare
 
-    unless index is original
-      $dragging.data('position', index + delta)
-      @layout(@$sorted())
+    for i in [0 ... positions.length]
+      $element = positions[i].$element
+      @reordinalize($element, i)
+
+    @layout(@$sorted())
 
   position: ($element, columns) =>
     size = (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
@@ -151,6 +147,7 @@ class Gridly
         y: position.y
         w: $element.data('width') || $element.width()
         h: $element.data('height') || $element.height()
+        $element: $element
 
     height: Math.max columns...
     positions: positions

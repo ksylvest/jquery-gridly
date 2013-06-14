@@ -2,13 +2,8 @@
 (function() {
 
   $(function() {
-    $('.gridly').gridly({
-      callbacks: {
-        reordered: function(gridly) {
-          return console.debug('reordered', gridly);
-        }
-      }
-    });
+    $('.gridly').gridly();
+    $('.gridly').gridly('draggable');
     return $('.gridly .brick').click(function(event) {
       var size;
       event.preventDefault();

@@ -1,8 +1,6 @@
 $ -> 
-  $('.gridly').gridly 
-    callbacks:
-      reordered: (gridly) ->
-        console.debug('reordered', gridly)
+  $('.gridly').gridly()
+  $('.gridly').gridly('draggable')
 
   $('.gridly .brick').click (event) ->
     event.preventDefault()
