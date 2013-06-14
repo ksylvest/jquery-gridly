@@ -18,6 +18,9 @@
                 break;
               }
             }
+            if (index === originals.length) {
+              index = 0;
+            }
             $element = $(originals[index]);
             if ($element.hasClass('small')) {
               columns += 1;

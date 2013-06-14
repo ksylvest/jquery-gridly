@@ -13,7 +13,8 @@ $ ->
           for index in [0...originals.length]
             $element = $(originals[index])
             break if ($element.hasClass('large') and columns % 2 is 0) or ($element.hasClass('small'))
-
+        
+          index = 0 if index is originals.length
           $element = $(originals[index])
           columns += 1 if $element.hasClass('small')
           columns += 2 if $element.hasClass('large')
