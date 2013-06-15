@@ -3,36 +3,7 @@
 
   $(function() {
     $('.gridly').gridly({
-      columns: 12,
-      callbacks: {
-        reorder: function(originals) {
-          var $element, columns, index, results, selected, _i, _ref;
-          results = [];
-          columns = 0;
-          while (originals.length > 0) {
-            selected = null;
-            index = 0;
-            for (index = _i = 0, _ref = originals.length; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
-              $element = $(originals[index]);
-              if (($element.hasClass('large') && columns % 2 === 0) || ($element.hasClass('small'))) {
-                break;
-              }
-            }
-            if (index === originals.length) {
-              index = 0;
-            }
-            $element = $(originals[index]);
-            if ($element.hasClass('small')) {
-              columns += 1;
-            }
-            if ($element.hasClass('large')) {
-              columns += 2;
-            }
-            results.push(originals.splice(index, 1)[0]);
-          }
-          return results;
-        }
-      }
+      columns: 4
     });
     $('.gridly').gridly('draggable');
     return $('.gridly .brick').click(function(event) {
