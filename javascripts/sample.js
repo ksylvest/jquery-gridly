@@ -3,7 +3,7 @@
 
   $(function() {
     $('.gridly').gridly({
-      columns: 4
+      columns: 12
     });
     $('.gridly').gridly('draggable');
     return $('.gridly .brick').click(function(event) {

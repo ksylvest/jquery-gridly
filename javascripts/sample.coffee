@@ -1,7 +1,7 @@
 $ -> 
 
   $('.gridly').gridly
-    columns: 4
+    columns: 12
 
   $('.gridly').gridly('draggable')
 
