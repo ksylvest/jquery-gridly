@@ -73,13 +73,13 @@ class Gridly
     $elements = @$sorted()
     @ordinalize($elements)
     setTimeout @layout, 0
-    @settings?.callbacks?.dragging?.started?($elements)
+    @settings?.callbacks?.reordering?($elements)
 
   stop: (event, ui) =>
     $elements = @$sorted()
     @ordinalize($elements)
     setTimeout @layout, 0
-    @settings?.callbacks?.dragging?.stopped?($elements)
+    @settings?.callbacks?.reordered?($elements)
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->
@@ -112,16 +112,18 @@ class Gridly
     positions.sort @compare
 
     $elements = positions.map (position) -> position.$element
-    $reordered = @settings.callbacks?.reorder?($elements)
-    $elements = $reordered if $reordered
+    $elements = @optimize($elements)
 
     for i in [0...$elements.length]
       @reordinalize($($elements[i]), i)
 
     @layout()
 
+  size: ($element) =>
+    (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
+
   position: ($element, columns) =>
-    size = (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
+    size = @size($element)
 
     height = Infinity
     column = 0
@@ -156,9 +158,9 @@ class Gridly
     height: Math.max columns...
     positions: positions
 
-  layout: () =>
+  layout: =>
     $elements = @$sorted()
-    $reordered = @settings.callbacks?.reorder?($elements)
+    $reordered = @optimize($elements)
     $elements = $reordered if $reordered
 
     structure = @structure($elements)
@@ -174,6 +176,28 @@ class Gridly
 
     @$el.css
       height: structure.height
+
+  optimize: (originals) =>
+    results = []
+
+    columns = 0
+    while originals.length > 0
+      columns = 0 if columns is @settings.columns
+
+      index = 0
+      for index in [0...originals.length]
+        break if columns + @size($(originals[index])) <= @settings.columns
+
+      if index is originals.length
+        index = 0
+        columns = 0
+
+      columns += @size($(originals[index]))
+
+      # Move from originals into results
+      results.push(originals.splice(index,1)[0])
+
+    return results
 
 $.fn.extend
   gridly: (option = {}) ->
