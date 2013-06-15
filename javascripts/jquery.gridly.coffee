@@ -112,7 +112,7 @@ class Gridly
     positions.sort @compare
 
     $elements = positions.map (position) -> position.$element
-    $elements = @optimize($elements)
+    $elements = (@settings.callbacks?.optimize || @optimize)($elements)
 
     for i in [0...$elements.length]
       @reordinalize($($elements[i]), i)
@@ -159,9 +159,7 @@ class Gridly
     positions: positions
 
   layout: =>
-    $elements = @$sorted()
-    $reordered = @optimize($elements)
-    $elements = $reordered if $reordered
+    $elements = (@settings.callbacks?.optimize || @optimize)(@$sorted())
 
     structure = @structure($elements)
 
