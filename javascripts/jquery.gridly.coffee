@@ -29,7 +29,8 @@ class Gridly
     base: 60
     gutter: 20
     columns: 12
-    draggable: true
+    draggable:
+      handle: '> *'
 
   @gridly: ($el, options = {}) ->
     @existing ?= {}
@@ -60,14 +61,14 @@ class Gridly
     return 0
 
   draggable: =>
-    @$('> *').draggable
+    @$(@settings.draggable.handle).draggable
       zIndex: 800
       drag: @drag
       start: @start
       stop: @stop
 
   stationary: =>
-    @$('> *').draggable('destroy')
+    @$(@settings.draggable.handle).draggable('destroy')
 
   start: (event, ui) =>
     $elements = @$sorted()

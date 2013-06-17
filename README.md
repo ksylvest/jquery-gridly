@@ -15,6 +15,18 @@ To install copy the *javascripts* and *stylesheets* directories into your projec
 
 Setting up a gridly is easy. The following snippet is a good start:
 
+    <style>
+    .brick.small {
+      width: 140px;
+      height: 140px;
+    }
+
+    .brick.large {
+      width: 300px;
+      height: 300px;
+    }
+    </style>
+
     <div class="gridly">
       <div class="brick small"></div>
       <div class="brick small"></div>
@@ -23,9 +35,28 @@ Setting up a gridly is easy. The following snippet is a good start:
       <div class="brick small"></div>
       <div class="brick large"></div>
     </div>
+
     <script>
-      $('.gridly').gridly()
+      $('.gridly').gridly();
+      $('.gridly').gridly('draggable');
+      $('.gridly').gridly();
     </script>
+
+## Configuration
+
+Gridly uses a fairly standard pattern for handling grids and offers three configuration options for sizing: *base*, *gutter* and *columns*:
+
+    $('.gridly').gridly({
+      base: 60, // px 
+      gutter: 20, // px
+      columns: 12,
+    });
+
+When using dragging the handle (element that responds to drag events) can be changed as well:
+
+    $('.gridly').gridly({
+      draggable: { handle: '.move' }
+    });
 
 ## Copyright
 

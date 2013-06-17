@@ -58,7 +58,9 @@ Copyright 2013 Kevin Sylvestre
       base: 60,
       gutter: 20,
       columns: 12,
-      draggable: true
+      draggable: {
+        handle: '> *'
+      }
     };
 
     Gridly.gridly = function($el, options) {
@@ -149,7 +151,7 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.draggable = function() {
-      return this.$('> *').draggable({
+      return this.$(this.settings.draggable.handle).draggable({
         zIndex: 800,
         drag: this.drag,
         start: this.start,
@@ -158,7 +160,7 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.stationary = function() {
-      return this.$('> *').draggable('destroy');
+      return this.$(this.settings.draggable.handle).draggable('destroy');
     };
 
     Gridly.prototype.start = function(event, ui) {
