@@ -3,7 +3,7 @@
   "title": "jQuery Gridly",
   "description": "Gridly is a jQuery plugin that allows for dragging and dropping as well as resizing.",
   "keywords": ["grid","animation"],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Kevin Sylvestre",
     "url": "http://ksylvest.com/"

@@ -59,7 +59,7 @@ Copyright 2013 Kevin Sylvestre
       gutter: 20,
       columns: 12,
       draggable: {
-        handle: '> *'
+        zIndex: 800
       }
     };
 
@@ -151,16 +151,17 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.draggable = function() {
-      return this.$(this.settings.draggable.handle).draggable({
-        zIndex: 800,
+      var callbacks;
+      callbacks = {
         drag: this.drag,
         start: this.start,
         stop: this.stop
-      });
+      };
+      return this.$('> *').draggable($.extend(callbacks, this.settings.draggable));
     };
 
     Gridly.prototype.stationary = function() {
-      return this.$(this.settings.draggable.handle).draggable('destroy');
+      return this.$('> *').draggable('destroy');
     };
 
     Gridly.prototype.start = function(event, ui) {

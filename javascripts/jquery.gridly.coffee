@@ -30,7 +30,7 @@ class Gridly
     gutter: 20
     columns: 12
     draggable:
-      handle: '> *'
+      zIndex: 800
 
   @gridly: ($el, options = {}) ->
     @existing ?= {}
@@ -61,14 +61,15 @@ class Gridly
     return 0
 
   draggable: =>
-    @$(@settings.draggable.handle).draggable
-      zIndex: 800
+    callbacks =
       drag: @drag
       start: @start
       stop: @stop
 
+    @$('> *').draggable($.extend(callbacks, @settings.draggable))
+
   stationary: =>
-    @$(@settings.draggable.handle).draggable('destroy')
+    @$('> *').draggable('destroy')
 
   start: (event, ui) =>
     $elements = @$sorted()
