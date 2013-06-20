@@ -52,10 +52,19 @@ pre .string.value {
 .example {
   position: relative; }
   .example .brick {
-    float: left;
     cursor: pointer;
-    margin-right: 20px;
-    margin-bottom: 20px; }
+    position: relative; }
+    .example .brick .delete {
+      display: block;
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      width: 40px;
+      height: 40px;
+      top: 0;
+      right: 0;
+      position: absolute;
+      text-align: center;
+      line-height: 40px; }
     .example .brick.small {
       width: 140px;
       height: 140px; }

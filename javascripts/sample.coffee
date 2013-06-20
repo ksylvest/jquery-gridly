@@ -1,8 +1,6 @@
 $ -> 
 
-  $('.gridly').gridly
-    columns: 12
-
+  $('.gridly').gridly()
   $('.gridly').gridly('draggable')
 
   $('.gridly .brick').click (event) ->
@@ -14,4 +12,10 @@ $ ->
     size = 300 if $(this).hasClass('large') # HACK
     $(this).data('width', size)
     $(this).data('height', size)
+    $('.gridly').gridly 'layout'
+
+  $('.gridly .delete').click (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    $(this).closest('.brick').remove()
     $('.gridly').gridly 'layout'
