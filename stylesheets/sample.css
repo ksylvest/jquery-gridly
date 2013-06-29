@@ -52,6 +52,7 @@ pre .string.value {
 .example {
   position: relative; }
   .example .brick {
+    opacity: 1;
     cursor: pointer;
     position: relative; }
     .example .brick .delete {
@@ -71,43 +72,45 @@ pre .string.value {
     .example .brick.large {
       width: 300px;
       height: 300px; }
-    .example .brick:nth-child(1) {
+    .example .brick.dragging {
+      opacity: 0.8; }
+    .example .brick:nth-child(20n + 1) {
       background: #1abc9c; }
-    .example .brick:nth-child(2) {
+    .example .brick:nth-child(20n + 2) {
       background: #16a085; }
-    .example .brick:nth-child(3) {
+    .example .brick:nth-child(20n + 3) {
       background: #2ecc71; }
-    .example .brick:nth-child(4) {
+    .example .brick:nth-child(20n + 4) {
       background: #27ae60; }
-    .example .brick:nth-child(5) {
+    .example .brick:nth-child(20n + 5) {
       background: #3498db; }
-    .example .brick:nth-child(6) {
+    .example .brick:nth-child(20n + 6) {
       background: #2980b9; }
-    .example .brick:nth-child(7) {
+    .example .brick:nth-child(20n + 7) {
       background: #9b59b6; }
-    .example .brick:nth-child(8) {
+    .example .brick:nth-child(20n + 8) {
       background: #8e44ad; }
-    .example .brick:nth-child(9) {
+    .example .brick:nth-child(20n + 9) {
       background: #34495e; }
-    .example .brick:nth-child(10) {
+    .example .brick:nth-child(20n + 10) {
       background: #2c3e50; }
-    .example .brick:nth-child(11) {
+    .example .brick:nth-child(20n + 11) {
       background: #f1c40f; }
-    .example .brick:nth-child(12) {
+    .example .brick:nth-child(20n + 12) {
       background: #f39c12; }
-    .example .brick:nth-child(13) {
+    .example .brick:nth-child(20n + 13) {
       background: #e67e22; }
-    .example .brick:nth-child(14) {
+    .example .brick:nth-child(20n + 14) {
       background: #d35400; }
-    .example .brick:nth-child(15) {
+    .example .brick:nth-child(20n + 15) {
       background: #e74c3c; }
-    .example .brick:nth-child(16) {
+    .example .brick:nth-child(20n + 16) {
       background: #c0392b; }
-    .example .brick:nth-child(17) {
+    .example .brick:nth-child(20n + 17) {
       background: #ecf0f1; }
-    .example .brick:nth-child(18) {
+    .example .brick:nth-child(20n + 18) {
       background: #bdc3c7; }
-    .example .brick:nth-child(19) {
+    .example .brick:nth-child(20n + 19) {
       background: #95a5a6; }
-    .example .brick:nth-child(20) {
+    .example .brick:nth-child(20n + 20) {
       background: #7f8c8d; }
