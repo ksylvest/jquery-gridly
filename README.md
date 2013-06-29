@@ -38,8 +38,6 @@ Setting up a gridly is easy. The following snippet is a good start:
 
     <script>
       $('.gridly').gridly();
-      $('.gridly').gridly('draggable');
-      $('.gridly').gridly();
     </script>
 
 ## Configuration
