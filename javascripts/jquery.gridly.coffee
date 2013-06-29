@@ -23,6 +23,77 @@ class Animation
     transition = @transition($el)
     if transition? then $el.one(transition, callback) else callback()
 
+class Draggable
+  
+  @settings:
+    delta: 64
+    distance: 16
+
+  constructor: ($container, selector, callbacks) ->
+    @$container = $container
+    @selector = selector
+    @callbacks = callbacks
+    @toggle()
+
+  bind: (method = 'on') =>
+    $(document)[method] 'mousemove touchmove', @moved
+    $(document)[method] 'mouseup touchend touchcancel', @ended
+
+  toggle: (method = 'on') =>
+    @$container[method] 'mousedown touchstart', @selector, @began
+    @$container[method] 'click', @selector, @click
+
+  coordinate: (event) =>
+    switch event.type
+      when 'touchstart','touchmove','touchend','touchcancel' then event.originalEvent.touches[0]
+      else event
+
+  began: (event) =>
+    return if @$target
+    event.preventDefault()
+    event.stopPropagation()
+    @bind('on')
+
+    @$target = $(event.target)
+    @$target.addClass('dragging')
+
+    @origin =
+      x: @coordinate(event).pageX - @$target.position().left
+      y: @coordinate(event).pageY - @$target.position().top
+
+    @callbacks?.began?(event)
+
+  ended: (event) =>
+    return unless @$target?
+    event.preventDefault()
+    event.stopPropagation()
+    @bind('off')
+
+    @$target.removeClass('dragging')
+
+    delete @$target
+    delete @origin
+
+    @callbacks?.ended?(event)
+
+  moved: (event) =>
+    return unless @$target?
+    event.preventDefault()
+    event.stopPropagation()
+
+    @$target.css
+      left: @coordinate(event).pageX - @origin.x
+      top:  @coordinate(event).pageY - @origin.y
+
+    @dragged = @$target
+    @callbacks?.moved?(event)
+
+  click: (event) =>
+    return unless @dragged
+    event.preventDefault()
+    event.stopPropagation()
+    delete @dragged
+
 class Gridly
 
   @settings:
@@ -41,6 +112,8 @@ class Gridly
     @$el = $el
     @settings = $.extend {}, Gridly.settings, settings
     @ordinalize(@$('> *'))
+    @draggable()
+    return @
 
   ordinalize: ($elements) =>
     for i in [0 .. $elements.length]
@@ -61,27 +134,10 @@ class Gridly
     return 0
 
   draggable: =>
-    callbacks =
-      drag: @drag
-      start: @start
-      stop: @stop
-
-    @$('> *').draggable($.extend(callbacks, @settings.draggable))
-
-  stationary: =>
-    @$('> *').draggable('destroy')
-
-  start: (event, ui) =>
-    $elements = @$sorted()
-    @ordinalize($elements)
-    setTimeout @layout, 0
-    @settings?.callbacks?.reordering?($elements)
-
-  stop: (event, ui) =>
-    $elements = @$sorted()
-    @ordinalize($elements)
-    setTimeout @layout, 0
-    @settings?.callbacks?.reordered?($elements)
+    @_draggable ?= new Draggable @$el, '> *', 
+      began: @draggingBegan
+      ended: @draggingEnded
+      moved: @draggingMoved
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->
@@ -99,7 +155,19 @@ class Gridly
       return +1 if bPositionInt < aPositionInt
       return 0
 
-  drag: (event, ui) =>
+  draggingBegan: (event) =>
+    $elements = @$sorted()
+    @ordinalize($elements)
+    setTimeout @layout, 0
+    @settings?.callbacks?.reordering?($elements)
+
+  draggingEnded: (event) =>
+    $elements = @$sorted()
+    @ordinalize($elements)
+    setTimeout @layout, 0
+    @settings?.callbacks?.reordered?($elements)
+
+  draggingMoved: (event) =>
     $dragging = $(event.target)
     $elements = @$sorted()
     positions = @structure($elements).positions
@@ -168,6 +236,8 @@ class Gridly
     for index in [0 ... $elements.length]
       $element = $($elements[index])
       position = structure.positions[index]
+
+      continue if $element.is('.dragging')
 
       $element.css
         position: 'absolute'

@@ -7,7 +7,7 @@ Copyright 2013 Kevin Sylvestre
 
 (function() {
   "use strict";
-  var $, Animation, Gridly,
+  var $, Animation, Draggable, Gridly,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $ = jQuery;
@@ -49,6 +49,113 @@ Copyright 2013 Kevin Sylvestre
 
   })();
 
+  Draggable = (function() {
+    Draggable.settings = {
+      delta: 64,
+      distance: 16
+    };
+
+    function Draggable($container, selector, callbacks) {
+      this.click = __bind(this.click, this);
+      this.moved = __bind(this.moved, this);
+      this.ended = __bind(this.ended, this);
+      this.began = __bind(this.began, this);
+      this.coordinate = __bind(this.coordinate, this);
+      this.toggle = __bind(this.toggle, this);
+      this.bind = __bind(this.bind, this);
+      this.$container = $container;
+      this.selector = selector;
+      this.callbacks = callbacks;
+      this.toggle();
+    }
+
+    Draggable.prototype.bind = function(method) {
+      if (method == null) {
+        method = 'on';
+      }
+      $(document)[method]('mousemove touchmove', this.moved);
+      return $(document)[method]('mouseup touchend touchcancel', this.ended);
+    };
+
+    Draggable.prototype.toggle = function(method) {
+      if (method == null) {
+        method = 'on';
+      }
+      this.$container[method]('mousedown touchstart', this.selector, this.began);
+      return this.$container[method]('click', this.selector, this.click);
+    };
+
+    Draggable.prototype.coordinate = function(event) {
+      switch (event.type) {
+        case 'touchstart':
+        case 'touchmove':
+        case 'touchend':
+        case 'touchcancel':
+          return event.originalEvent.touches[0];
+        default:
+          return event;
+      }
+    };
+
+    Draggable.prototype.began = function(event) {
+      var _ref;
+      if (this.$target) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      this.bind('on');
+      this.$target = $(event.target);
+      this.$target.addClass('dragging');
+      this.origin = {
+        x: this.coordinate(event).pageX - this.$target.position().left,
+        y: this.coordinate(event).pageY - this.$target.position().top
+      };
+      return (_ref = this.callbacks) != null ? typeof _ref.began === "function" ? _ref.began(event) : void 0 : void 0;
+    };
+
+    Draggable.prototype.ended = function(event) {
+      var _ref;
+      if (this.$target == null) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      this.bind('off');
+      this.$target.removeClass('dragging');
+      delete this.$target;
+      delete this.origin;
+      return (_ref = this.callbacks) != null ? typeof _ref.ended === "function" ? _ref.ended(event) : void 0 : void 0;
+    };
+
+    Draggable.prototype.moved = function(event) {
+      var _ref;
+      if (this.$target == null) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      this.$target.css({
+        left: this.coordinate(event).pageX - this.origin.x,
+        top: this.coordinate(event).pageY - this.origin.y
+      });
+      this.dragged = this.$target;
+      return (_ref = this.callbacks) != null ? typeof _ref.moved === "function" ? _ref.moved(event) : void 0 : void 0;
+    };
+
+    Draggable.prototype.click = function(event) {
+      if (!this.dragged) {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      return delete this.dragged;
+    };
+
+    return Draggable;
+
+  })();
+
   Gridly = (function() {
     Gridly.settings = {
       base: 60,
@@ -82,11 +189,10 @@ Copyright 2013 Kevin Sylvestre
       this.structure = __bind(this.structure, this);
       this.position = __bind(this.position, this);
       this.size = __bind(this.size, this);
-      this.drag = __bind(this.drag, this);
+      this.draggingMoved = __bind(this.draggingMoved, this);
+      this.draggingEnded = __bind(this.draggingEnded, this);
+      this.draggingBegan = __bind(this.draggingBegan, this);
       this.$sorted = __bind(this.$sorted, this);
-      this.stop = __bind(this.stop, this);
-      this.start = __bind(this.start, this);
-      this.stationary = __bind(this.stationary, this);
       this.draggable = __bind(this.draggable, this);
       this.compare = __bind(this.compare, this);
       this.$ = __bind(this.$, this);
@@ -95,6 +201,8 @@ Copyright 2013 Kevin Sylvestre
       this.$el = $el;
       this.settings = $.extend({}, Gridly.settings, settings);
       this.ordinalize(this.$('> *'));
+      this.draggable();
+      return this;
     }
 
     Gridly.prototype.ordinalize = function($elements) {
@@ -132,33 +240,11 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.draggable = function() {
-      var callbacks;
-      callbacks = {
-        drag: this.drag,
-        start: this.start,
-        stop: this.stop
-      };
-      return this.$('> *').draggable($.extend(callbacks, this.settings.draggable));
-    };
-
-    Gridly.prototype.stationary = function() {
-      return this.$('> *').draggable('destroy');
-    };
-
-    Gridly.prototype.start = function(event, ui) {
-      var $elements, _ref, _ref1;
-      $elements = this.$sorted();
-      this.ordinalize($elements);
-      setTimeout(this.layout, 0);
-      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordering === "function" ? _ref1.reordering($elements) : void 0 : void 0 : void 0;
-    };
-
-    Gridly.prototype.stop = function(event, ui) {
-      var $elements, _ref, _ref1;
-      $elements = this.$sorted();
-      this.ordinalize($elements);
-      setTimeout(this.layout, 0);
-      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordered === "function" ? _ref1.reordered($elements) : void 0 : void 0 : void 0;
+      return this._draggable != null ? this._draggable : this._draggable = new Draggable(this.$el, '> *', {
+        began: this.draggingBegan,
+        ended: this.draggingEnded,
+        moved: this.draggingMoved
+      });
     };
 
     Gridly.prototype.$sorted = function($elements) {
@@ -192,7 +278,23 @@ Copyright 2013 Kevin Sylvestre
       });
     };
 
-    Gridly.prototype.drag = function(event, ui) {
+    Gridly.prototype.draggingBegan = function(event) {
+      var $elements, _ref, _ref1;
+      $elements = this.$sorted();
+      this.ordinalize($elements);
+      setTimeout(this.layout, 0);
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordering === "function" ? _ref1.reordering($elements) : void 0 : void 0 : void 0;
+    };
+
+    Gridly.prototype.draggingEnded = function(event) {
+      var $elements, _ref, _ref1;
+      $elements = this.$sorted();
+      this.ordinalize($elements);
+      setTimeout(this.layout, 0);
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordered === "function" ? _ref1.reordered($elements) : void 0 : void 0 : void 0;
+    };
+
+    Gridly.prototype.draggingMoved = function(event) {
       var $dragging, $elements, element, i, index, original, positions, _i, _j, _len, _ref, _ref1, _ref2;
       $dragging = $(event.target);
       $elements = this.$sorted();
@@ -282,6 +384,9 @@ Copyright 2013 Kevin Sylvestre
       for (index = _i = 0, _ref1 = $elements.length; 0 <= _ref1 ? _i < _ref1 : _i > _ref1; index = 0 <= _ref1 ? ++_i : --_i) {
         $element = $($elements[index]);
         position = structure.positions[index];
+        if ($element.is('.dragging')) {
+          continue;
+        }
         $element.css({
           position: 'absolute',
           left: position.x,

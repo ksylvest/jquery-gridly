@@ -6,5 +6,7 @@ $white: #FFF
 $namespace: "gridly"
 
 .gridly
-  &, > :not(.ui-draggable-dragging)
+  &, > :not(.dragging)
     +transition(all 0.4s ease-in-out)
+  .dragging
+    z-index: 800
