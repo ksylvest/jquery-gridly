@@ -42,6 +42,12 @@ pre {
   width: 128px;
   height: 128px; }
 
+.fork {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0; }
+
 pre .support.tag {
   color: #000088; }
 pre .support.attribute {
