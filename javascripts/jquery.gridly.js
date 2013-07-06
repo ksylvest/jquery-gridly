@@ -2,6 +2,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
+1.0.9
 */
 
 
