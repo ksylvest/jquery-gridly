@@ -47,6 +47,17 @@ pre {
   left: 0;
   border: 0; }
 
+.button {
+  display: block;
+  padding: 20px;
+  width: 200px;
+  color: white;
+  background: #888888;
+  margin: 20px 0;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px; }
+
 pre .support.tag {
   color: #000088; }
 pre .support.attribute {
