@@ -3,20 +3,19 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
-  font-family: "Droid Sans", sans-serif;
-  font-weight: normal; }
-
-p, textarea, input {
-  color: #888888;
-  font-family: "Droid Serif", serif;
+body, html, p, h1, h2, h3, h4, h5, h6 {
+  font-family: "Lato", "Helvetica", serif;
   font-weight: normal; }
 
 code {
-  color: #888888;
   font-family: "Consolas", "Monaco", monospace;
   font-weight: normal; }
+
+body, html, p, code {
+  color: #888888; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444444; }
 
 pre {
   overflow: scroll;
