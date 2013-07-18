@@ -51,11 +51,6 @@ Copyright 2013 Kevin Sylvestre
   })();
 
   Draggable = (function() {
-    Draggable.settings = {
-      delta: 64,
-      distance: 16
-    };
-
     function Draggable($container, selector, callbacks) {
       this.click = __bind(this.click, this);
       this.moved = __bind(this.moved, this);

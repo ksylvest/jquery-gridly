@@ -25,10 +25,6 @@ class Animation
     if transition? then $el.one(transition, callback) else callback()
 
 class Draggable
-  
-  @settings:
-    delta: 64
-    distance: 16
 
   constructor: ($container, selector, callbacks) ->
     @$container = $container
