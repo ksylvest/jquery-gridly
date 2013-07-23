@@ -1,0 +1,11 @@
+{
+  "name": "gridly",
+  "version": "1.1.0",
+  "main": [
+    "./javascripts/jquery.gridly.js",
+    "./stylesheets/jquery.gridly.css"
+  ],
+  "dependencies": {
+    "jquery": "latest"
+  },
+}
