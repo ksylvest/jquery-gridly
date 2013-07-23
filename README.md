@@ -55,6 +55,13 @@ When using dragging the handle (element that responds to drag events) can be cha
       draggable: { handle: '.move' }
     });
 
+## Bower
+
+This plugin is registered under http://bower.io/ to make integration easy. Try:
+
+    npm install -g bower
+    bower install gridly
+
 ## Copyright
 
 Copyright (c) 2013 - 2013 Kevin Sylvestre. See LICENSE for details.
