@@ -10,6 +10,11 @@ To install copy the *javascripts* and *stylesheets* directories into your projec
     <script src="javascript/jquery.gridly.js" type="text/javascript"></script>
     <link href="stylesheets/jquery.gridly.css" rel="stylesheet" type="text/css" />
 
+This plugin is also registered under http://bower.io/ to simplify integration. Try:
+
+    npm install -g bower
+    bower install gridly
+
 ## Examples
 
 Setting up a gridly is easy. The following snippet is a good start:
@@ -54,13 +59,6 @@ When using dragging the handle (element that responds to drag events) can be cha
     $('.gridly').gridly({
       draggable: { handle: '.move' }
     });
-
-## Bower
-
-This plugin is registered under http://bower.io/ to make integration easy. Try:
-
-    npm install -g bower
-    bower install gridly
 
 ## Copyright
 
