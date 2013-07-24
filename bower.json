@@ -1,6 +1,6 @@
 {
   "name": "gridly",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "main": [ "./javascripts/jquery.gridly.js","./stylesheets/jquery.gridly.css" ],
   "ignore": 
   [
