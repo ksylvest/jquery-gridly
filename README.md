@@ -51,14 +51,23 @@ Gridly uses a fairly standard pattern for handling grids and offers three config
     $('.gridly').gridly({
       base: 60, // px 
       gutter: 20, // px
-      columns: 12,
+      columns: 12
     });
 
-When using dragging the handle (element that responds to drag events) can be changed as well:
+When using the drag and drop sorting callbacks can be passed in when initializing:
 
-    $('.gridly').gridly({
-      draggable: { handle: '.move' }
+    var reordering = function($elements) {
+      // Called before the drag and drop starts with the elements in there starting position.
+    };
+
+    var reordered = function($elements) {
+      // Called after the drag and drop ends with the elements in there ending position.
+    };
+
+    @$('.wall .bricks').gridly({
+      callbacks: { reordering: reordering , reordered: reordered }
     });
+
 
 ## Copyright
 

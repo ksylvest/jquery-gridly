@@ -57,20 +57,17 @@
           = preserve do
             :escaped
               <style type="text/css">
-                .gridly
-                {
+                .gridly {
                   position: relative;
                   width: 960px;
                 }
-                .brick.small
-                {
-                  width: 60px;
-                  height: 60px;
+                .brick.small {
+                  width: 140px;
+                  height: 140px;
                 }
-                .brick.large
-                {
-                  width: 120px;
-                  height: 120px;
+                .brick.large {
+                  width: 300px;
+                  height: 300px;
                 }
               </style>
               <div class="gridly">
@@ -82,7 +79,11 @@
                 <div class="brick large"></div>
               </div>
               <script>
-                $('.gridly').gridly();
+                $('.gridly').gridly({
+                  base: 60, // px 
+                  gutter: 20, // px
+                  columns: 12
+                });
               </script>
       %p.copy
         Copyright (c) 2013 - 2013 
