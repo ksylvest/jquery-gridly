@@ -20,15 +20,15 @@ This plugin is also registered under http://bower.io/ to simplify integration. T
 Setting up a gridly is easy. The following snippet is a good start:
 
     <style>
-    .brick.small {
-      width: 140px;
-      height: 140px;
-    }
+      .brick.small {
+        width: 140px;
+        height: 140px;
+      }
 
-    .brick.large {
-      width: 300px;
-      height: 300px;
-    }
+      .brick.large {
+        width: 300px;
+        height: 300px;
+      }
     </style>
 
     <div class="gridly">
@@ -57,11 +57,11 @@ Gridly uses a fairly standard pattern for handling grids and offers three config
 When using the drag and drop sorting callbacks can be passed in when initializing:
 
     var reordering = function($elements) {
-      // Called before the drag and drop starts with the elements in there starting position.
+      // Called before the drag and drop starts with the elements in their starting position.
     };
 
     var reordered = function($elements) {
-      // Called after the drag and drop ends with the elements in there ending position.
+      // Called after the drag and drop ends with the elements in their ending position.
     };
 
     @$('.wall .bricks').gridly({
