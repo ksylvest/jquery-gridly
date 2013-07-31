@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+  - 2.0.0
+env:
+  - DISPLAY=:99.0
+script: 
+  - "sh -e /etc/init.d/xvfb start"
+  - "bundle exec rake jasmine:ci"
