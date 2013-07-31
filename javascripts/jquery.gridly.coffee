@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
- 1.1.4
+ 1.1.5
 ###
 
 "use strict"

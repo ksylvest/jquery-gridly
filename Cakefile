@@ -1,4 +1,4 @@
-PROJECT = "jquery.grildy"
+PROJECT = "jquery.gridly"
 
 {spawn, exec} = require "child_process"
 
