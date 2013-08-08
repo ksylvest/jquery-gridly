@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
- 1.1.5
+1.1.6
 ###
 
 "use strict"
@@ -39,6 +39,12 @@ class Draggable
   toggle: (method = 'on') =>
     @$container[method] 'mousedown touchstart', @selector, @began
     @$container[method] 'click', @selector, @click
+
+  on: =>
+    @toggle('on')
+
+  off: =>
+    @toggle('off')
 
   coordinate: (event) =>
     switch event.type
@@ -109,7 +115,7 @@ class Gridly
     @$el = $el
     @settings = $.extend {}, Gridly.settings, settings
     @ordinalize(@$('> *'))
-    @draggable()
+    @draggable() unless @settings.draggable is false
     return @
 
   ordinalize: ($elements) =>
@@ -130,11 +136,12 @@ class Gridly
     return -1 if (s.x + (s.w / 2)) > (d.x + (d.w / 2))
     return 0
 
-  draggable: =>
+  draggable: (method) =>
     @_draggable ?= new Draggable @$el, '> *', 
       began: @draggingBegan
       ended: @draggingEnded
       moved: @draggingMoved
+    @_draggable[method]() if method?
 
   $sorted: ($elements) =>
     ($elements || @$('> *')).sort (a,b) ->
@@ -267,7 +274,7 @@ class Gridly
     return results
 
 $.fn.extend
-  gridly: (option = {}) ->
+  gridly: (option = {}, parameters...) ->
     @each ->
       $this = $(@)
 
@@ -275,4 +282,4 @@ $.fn.extend
       action = if typeof option is "string" then option else option.action
       action ?= "layout"
 
-      Gridly.gridly($this, options)[action]()
+      Gridly.gridly($this, options)[action](parameters)

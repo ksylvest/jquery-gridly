@@ -64,7 +64,7 @@ When using the drag and drop sorting callbacks can be passed in when initializin
       // Called after the drag and drop ends with the elements in their ending position.
     };
 
-    @$('.wall .bricks').gridly({
+    $('.wall .bricks').gridly({
       callbacks: { reordering: reordering , reordered: reordered }
     });
 

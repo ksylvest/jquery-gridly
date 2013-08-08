@@ -2,14 +2,15 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
- 1.1.5
+1.1.6
 */
 
 
 (function() {
   "use strict";
   var $, Animation, Draggable, Gridly,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __slice = [].slice;
 
   $ = jQuery;
 
@@ -57,6 +58,8 @@ Copyright 2013 Kevin Sylvestre
       this.ended = __bind(this.ended, this);
       this.began = __bind(this.began, this);
       this.coordinate = __bind(this.coordinate, this);
+      this.off = __bind(this.off, this);
+      this.on = __bind(this.on, this);
       this.toggle = __bind(this.toggle, this);
       this.bind = __bind(this.bind, this);
       this.$container = $container;
@@ -79,6 +82,14 @@ Copyright 2013 Kevin Sylvestre
       }
       this.$container[method]('mousedown touchstart', this.selector, this.began);
       return this.$container[method]('click', this.selector, this.click);
+    };
+
+    Draggable.prototype.on = function() {
+      return this.toggle('on');
+    };
+
+    Draggable.prototype.off = function() {
+      return this.toggle('off');
     };
 
     Draggable.prototype.coordinate = function(event) {
@@ -197,7 +208,9 @@ Copyright 2013 Kevin Sylvestre
       this.$el = $el;
       this.settings = $.extend({}, Gridly.settings, settings);
       this.ordinalize(this.$('> *'));
-      this.draggable();
+      if (this.settings.draggable !== false) {
+        this.draggable();
+      }
       return this;
     }
 
@@ -235,12 +248,17 @@ Copyright 2013 Kevin Sylvestre
       return 0;
     };
 
-    Gridly.prototype.draggable = function() {
-      return this._draggable != null ? this._draggable : this._draggable = new Draggable(this.$el, '> *', {
-        began: this.draggingBegan,
-        ended: this.draggingEnded,
-        moved: this.draggingMoved
-      });
+    Gridly.prototype.draggable = function(method) {
+      if (this._draggable == null) {
+        this._draggable = new Draggable(this.$el, '> *', {
+          began: this.draggingBegan,
+          ended: this.draggingEnded,
+          moved: this.draggingMoved
+        });
+      }
+      if (method != null) {
+        return this._draggable[method]();
+      }
     };
 
     Gridly.prototype.$sorted = function($elements) {
@@ -423,7 +441,9 @@ Copyright 2013 Kevin Sylvestre
   })();
 
   $.fn.extend({
-    gridly: function(option) {
+    gridly: function() {
+      var option, parameters;
+      option = arguments[0], parameters = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       if (option == null) {
         option = {};
       }
@@ -435,7 +455,7 @@ Copyright 2013 Kevin Sylvestre
         if (action == null) {
           action = "layout";
         }
-        return Gridly.gridly($this, options)[action]();
+        return Gridly.gridly($this, options)[action](parameters);
       });
     }
   });
