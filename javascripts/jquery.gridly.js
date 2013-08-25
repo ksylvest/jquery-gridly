@@ -2,7 +2,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.1.7
+1.1.8
 */
 
 
@@ -111,7 +111,7 @@ Copyright 2013 Kevin Sylvestre
       event.preventDefault();
       event.stopPropagation();
       this.bind('on');
-      this.$target = $(event.target);
+      this.$target = $(event.target).closest(this.$container.find(this.selector));
       this.$target.addClass('dragging');
       this.origin = {
         x: this.coordinate(event).pageX - this.$target.position().left,

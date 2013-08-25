@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.1.7
+1.1.8
 ###
 
 "use strict"
@@ -56,7 +56,7 @@ class Draggable
     event.stopPropagation()
     @bind('on')
 
-    @$target = $(event.target)
+    @$target = $(event.target).closest(@$container.find(@selector))
     @$target.addClass('dragging')
 
     @origin =
