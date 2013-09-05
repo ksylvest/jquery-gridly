@@ -2,7 +2,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.1.8
+1.1.9
 */
 
 
@@ -309,7 +309,7 @@ Copyright 2013 Kevin Sylvestre
 
     Gridly.prototype.draggingMoved = function(event) {
       var $dragging, $elements, element, i, index, original, positions, _i, _j, _len, _ref, _ref1, _ref2;
-      $dragging = $(event.target);
+      $dragging = $(event.target).closest(this.$('> *'));
       $elements = this.$sorted();
       positions = this.structure($elements).positions;
       original = index = $dragging.data('position');

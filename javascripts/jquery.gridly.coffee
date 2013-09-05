@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.1.8
+1.1.9
 ###
 
 "use strict"
@@ -171,7 +171,7 @@ class Gridly
     @settings?.callbacks?.reordered?($elements)
 
   draggingMoved: (event) =>
-    $dragging = $(event.target)
+    $dragging = $(event.target).closest(@$('> *'))
     $elements = @$sorted()
     positions = @structure($elements).positions
     original = index = $dragging.data('position')
