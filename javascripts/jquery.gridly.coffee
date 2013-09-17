@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.2.0
+1.2.1
 ###
 
 "use strict"
@@ -106,9 +106,11 @@ class Gridly
       zIndex: 800
 
   @gridly: ($el, options = {}) ->
-    @existing ?= {}
-    @existing[$el[0]] ?= new Gridly($el, options)
-    return @existing[$el[0]]
+    data = $el.data('_gridly')
+    unless data
+      data = new Gridly($el, options)
+      $el.data('_gridly', data)
+    return data
 
   constructor: ($el, settings = {}) ->
     @$el = $el

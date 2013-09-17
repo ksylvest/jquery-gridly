@@ -2,7 +2,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.2.0
+1.2.1
 */
 
 
@@ -173,17 +173,16 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.gridly = function($el, options) {
-      var _base, _name;
+      var data;
       if (options == null) {
         options = {};
       }
-      if (this.existing == null) {
-        this.existing = {};
+      data = $el.data('_gridly');
+      if (!data) {
+        data = new Gridly($el, options);
+        $el.data('_gridly', data);
       }
-      if ((_base = this.existing)[_name = $el[0]] == null) {
-        _base[_name] = new Gridly($el, options);
-      }
-      return this.existing[$el[0]];
+      return data;
     };
 
     function Gridly($el, settings) {
