@@ -313,8 +313,6 @@ Copyright 2013 Kevin Sylvestre
       $elements = this.$sorted(this.$(this.settings.draggable.selector));
       positions = this.structure($elements).positions;
       original = index = $dragging.data('position');
-      console.log($elements);
-      console.log(positions);
       _ref = positions.filter(function(position) {
         return position.$element.is($dragging);
       });
