@@ -179,9 +179,6 @@ class Gridly
     positions = @structure($elements).positions
     original = index = $dragging.data('position')
 
-    console.log($elements)
-    console.log(positions)
-
     for element in positions.filter((position) -> position.$element.is($dragging))
       element.x = $dragging.position().left
       element.y = $dragging.position().top
