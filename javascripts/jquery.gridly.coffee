@@ -104,6 +104,7 @@ class Gridly
     columns: 12
     draggable:
       zIndex: 800
+      selector : '> *'
 
   @gridly: ($el, options = {}) ->
     data = $el.data('_gridly')
@@ -138,7 +139,7 @@ class Gridly
     return 0
 
   draggable: (method) =>
-    @_draggable ?= new Draggable @$el, '> *', 
+    @_draggable ?= new Draggable @$el, @settings.draggable.selector,
       began: @draggingBegan
       ended: @draggingEnded
       moved: @draggingMoved
@@ -173,10 +174,13 @@ class Gridly
     @settings?.callbacks?.reordered?($elements)
 
   draggingMoved: (event) =>
-    $dragging = $(event.target).closest(@$('> *'))
-    $elements = @$sorted()
+    $dragging = $(event.target).closest(@$(@settings.draggable.selector))
+    $elements = @$sorted(@$(@settings.draggable.selector))
     positions = @structure($elements).positions
     original = index = $dragging.data('position')
+
+    console.log($elements)
+    console.log(positions)
 
     for element in positions.filter((position) -> position.$element.is($dragging))
       element.x = $dragging.position().left
