@@ -165,13 +165,13 @@ class Gridly
     $elements = @$sorted()
     @ordinalize($elements)
     setTimeout @layout, 0
-    @settings?.callbacks?.reordering?($elements)
+    @settings?.callbacks?.reordering?($elements, event)
 
   draggingEnded: (event) =>
     $elements = @$sorted()
     @ordinalize($elements)
     setTimeout @layout, 0
-    @settings?.callbacks?.reordered?($elements)
+    @settings?.callbacks?.reordered?($elements, event)
 
   draggingMoved: (event) =>
     $dragging = $(event.target).closest(@$(@settings.draggable.selector))
