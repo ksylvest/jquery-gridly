@@ -296,7 +296,7 @@ Copyright 2013 Kevin Sylvestre
       $elements = this.$sorted();
       this.ordinalize($elements);
       setTimeout(this.layout, 0);
-      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordering === "function" ? _ref1.reordering($elements) : void 0 : void 0 : void 0;
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordering === "function" ? _ref1.reordering($elements, event) : void 0 : void 0 : void 0;
     };
 
     Gridly.prototype.draggingEnded = function(event) {
@@ -304,7 +304,7 @@ Copyright 2013 Kevin Sylvestre
       $elements = this.$sorted();
       this.ordinalize($elements);
       setTimeout(this.layout, 0);
-      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordered === "function" ? _ref1.reordered($elements) : void 0 : void 0 : void 0;
+      return (_ref = this.settings) != null ? (_ref1 = _ref.callbacks) != null ? typeof _ref1.reordered === "function" ? _ref1.reordered($elements, event) : void 0 : void 0 : void 0;
     };
 
     Gridly.prototype.draggingMoved = function(event) {
