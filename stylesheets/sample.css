@@ -23,7 +23,7 @@ pre {
   padding: 10px; }
 
 .content {
-  width: 980px;
+  width: 100%;
   margin: 80px auto; }
 
 .formats .format {
@@ -88,6 +88,9 @@ pre .string.value {
     .example .brick.large {
       width: 300px;
       height: 300px; }
+	.example .brick.middle {
+      width: 300px;
+      height: 140px; }
     .example .brick.dragging {
       opacity: 0.8; }
     .example .brick:nth-child(20n + 1) {
