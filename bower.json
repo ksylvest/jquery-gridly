@@ -4,18 +4,29 @@
   "main": [ "./javascripts/jquery.gridly.js","./stylesheets/jquery.gridly.css" ],
   "ignore": 
   [
+    "README*",
+    "LICENSE*",
     "**/*.sass",
     "**/*.coffee",
     "**/sample.*",
-    "**/rainbow.*",
+    "**/rainbow.js",
+    "**/rainbow.css",
+    "**/jquery.js",
+    "**/jquery.css",
+    "samples",
+    "spec",
     "bourbon",
     "neat",
     "packages",
     "images",
-    "Cakefile",
-    "Gemfile",
-    "Gemfile.*",
-    "index.*"
+    "Cakefile*",
+    "Rakefile*",
+    "Gemfile*",
+    ".git*",
+    ".travis*",
+    "*bower.json",
+    "*jquery.json",
+    "index*"
   ],
   "dependencies": { "jquery": "latest" }
 }
