@@ -33,10 +33,11 @@ class Draggable
 
   bind: (method = 'on') =>
     $(document)[method] 'mousemove touchmove', @moved
-    $(document)[method] 'mouseup touchend touchcancel', @ended
+    $(document)[method] 'mouseup touchcancel', @ended
 
   toggle: (method = 'on') =>
     @$container[method] 'mousedown touchstart', @selector, @began
+    @$container[method] 'touchend', @selector, @touchend
     @$container[method] 'click', @selector, @click
 
   on: =>
@@ -67,8 +68,9 @@ class Draggable
 
   ended: (event) =>
     return unless @$target?
-    event.preventDefault()
-    event.stopPropagation()
+    if event.type != 'touchend'
+        event.preventDefault()
+        event.stopPropagation()
     @bind('off')
 
     @$target.removeClass('dragging')
@@ -95,6 +97,10 @@ class Draggable
     event.preventDefault()
     event.stopPropagation()
     delete @dragged
+
+  touchend: (event) =>
+    @ended(event)
+    @click(event)
 
 class Gridly
 

@@ -1,8 +1,8 @@
-$ -> 
+$ ->
 
   brick = "<div class='brick small'><div class='delete'>&times;</div></div>"
 
-  $(document).on "click", ".gridly .brick", (event) ->
+  $(document).on "click touchend", ".gridly .brick", (event) ->
     event.preventDefault()
     event.stopPropagation()
     $this = $(this)
@@ -30,4 +30,3 @@ $ ->
     $('.gridly').gridly()
 
   $('.gridly').gridly()
-    
