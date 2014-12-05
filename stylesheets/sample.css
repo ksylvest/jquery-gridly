@@ -1,7 +1,16 @@
-* {
+/* Neat 1.7.0
+ * http://neat.bourbon.io
+ * Copyright 2012-2014 thoughtbot, inc.
+ * MIT License */
+html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
 
 body, html, p, h1, h2, h3, h4, h5, h6 {
   font-family: "Lato", "Helvetica", serif;
@@ -12,14 +21,14 @@ code {
   font-weight: normal; }
 
 body, html, p, code {
-  color: #888888; }
+  color: #888; }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #444444; }
+  color: #444; }
 
 pre {
   overflow: scroll;
-  background: #eeeeee;
+  background: #EEE;
   padding: 10px; }
 
 .content {
@@ -51,19 +60,19 @@ pre {
   display: block;
   padding: 20px;
   width: 200px;
-  color: white;
-  background: #888888;
+  color: #FFF;
+  background: #888;
   margin: 20px 0;
   text-align: center;
   text-decoration: none;
   border-radius: 4px; }
 
 pre .support.tag {
-  color: #000088; }
+  color: #008; }
 pre .support.attribute {
-  color: #880000; }
+  color: #800; }
 pre .string.value {
-  color: #008800; }
+  color: #080; }
 
 .example {
   position: relative; }
@@ -73,7 +82,7 @@ pre .string.value {
     position: relative; }
     .example .brick .delete {
       display: block;
-      color: white;
+      color: #FFF;
       background: rgba(255, 255, 255, 0.2);
       width: 40px;
       height: 40px;
@@ -91,42 +100,44 @@ pre .string.value {
     .example .brick.dragging {
       opacity: 0.8; }
     .example .brick:nth-child(20n + 1) {
-      background: #1abc9c; }
+      background: #1ABC9C; }
     .example .brick:nth-child(20n + 2) {
-      background: #16a085; }
+      background: #16A085; }
     .example .brick:nth-child(20n + 3) {
-      background: #2ecc71; }
+      background: #2ECC71; }
     .example .brick:nth-child(20n + 4) {
-      background: #27ae60; }
+      background: #27AE60; }
     .example .brick:nth-child(20n + 5) {
-      background: #3498db; }
+      background: #3498DB; }
     .example .brick:nth-child(20n + 6) {
-      background: #2980b9; }
+      background: #2980B9; }
     .example .brick:nth-child(20n + 7) {
-      background: #9b59b6; }
+      background: #9B59B6; }
     .example .brick:nth-child(20n + 8) {
-      background: #8e44ad; }
+      background: #8E44AD; }
     .example .brick:nth-child(20n + 9) {
-      background: #34495e; }
+      background: #34495E; }
     .example .brick:nth-child(20n + 10) {
-      background: #2c3e50; }
+      background: #2C3E50; }
     .example .brick:nth-child(20n + 11) {
-      background: #f1c40f; }
+      background: #F1C40F; }
     .example .brick:nth-child(20n + 12) {
-      background: #f39c12; }
+      background: #F39C12; }
     .example .brick:nth-child(20n + 13) {
-      background: #e67e22; }
+      background: #E67E22; }
     .example .brick:nth-child(20n + 14) {
-      background: #d35400; }
+      background: #D35400; }
     .example .brick:nth-child(20n + 15) {
-      background: #e74c3c; }
+      background: #E74C3C; }
     .example .brick:nth-child(20n + 16) {
-      background: #c0392b; }
+      background: #C0392B; }
     .example .brick:nth-child(20n + 17) {
-      background: #ecf0f1; }
+      background: #ECF0F1; }
     .example .brick:nth-child(20n + 18) {
-      background: #bdc3c7; }
+      background: #BDC3C7; }
     .example .brick:nth-child(20n + 19) {
-      background: #95a5a6; }
+      background: #95A5A6; }
     .example .brick:nth-child(20n + 20) {
-      background: #7f8c8d; }
+      background: #7F8C8D; }
+
+/*# sourceMappingURL=sample.css.map */
