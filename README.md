@@ -96,4 +96,4 @@ When using the drag and drop sorting callbacks can be passed in when initializin
 
 ## Copyright
 
-Copyright (c) 2013 - 2013 Kevin Sylvestre. See LICENSE for details.
+Copyright (c) 2013 - 2014 Kevin Sylvestre. See LICENSE for details.
