@@ -3,7 +3,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.2.5
+1.2.6
  */
 
 (function() {
@@ -329,8 +329,8 @@ Copyright 2013 Kevin Sylvestre
         element = _ref[_i];
         element.x = $dragging.position().left;
         element.y = $dragging.position().top;
-        element.w = $dragging.data('width') || $dragging.width();
-        element.h = $dragging.data('height') || $dragging.height();
+        element.w = $dragging.data('width') || $dragging.outerWidth();
+        element.h = $dragging.data('height') || $dragging.outerHeight();
       }
       positions.sort(this.compare);
       $elements = positions.map(function(position) {
@@ -344,7 +344,7 @@ Copyright 2013 Kevin Sylvestre
     };
 
     Gridly.prototype.size = function($element) {
-      return (($element.data('width') || $element.width()) + this.settings.gutter) / (this.settings.base + this.settings.gutter);
+      return (($element.data('width') || $element.outerWidth()) + this.settings.gutter) / (this.settings.base + this.settings.gutter);
     };
 
     Gridly.prototype.position = function($element, columns) {
@@ -360,7 +360,7 @@ Copyright 2013 Kevin Sylvestre
         }
       }
       for (i = _j = column, _ref1 = column + size; column <= _ref1 ? _j < _ref1 : _j > _ref1; i = column <= _ref1 ? ++_j : --_j) {
-        columns[i] = height + ($element.data('height') || $element.height()) + this.settings.gutter;
+        columns[i] = height + ($element.data('height') || $element.outerHeight()) + this.settings.gutter;
       }
       return {
         x: column * (this.settings.base + this.settings.gutter),
@@ -388,8 +388,8 @@ Copyright 2013 Kevin Sylvestre
         positions.push({
           x: position.x,
           y: position.y,
-          w: $element.data('width') || $element.width(),
-          h: $element.data('height') || $element.height(),
+          w: $element.data('width') || $element.outerWidth(),
+          h: $element.data('height') || $element.outerHeight(),
           $element: $element
         });
       }
@@ -469,3 +469,5 @@ Copyright 2013 Kevin Sylvestre
   });
 
 }).call(this);
+
+//# sourceMappingURL=jquery.gridly.js.map

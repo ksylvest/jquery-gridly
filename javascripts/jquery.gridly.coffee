@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.2.5
+1.2.6
 ###
 
 "use strict"
@@ -188,8 +188,8 @@ class Gridly
     for element in positions.filter((position) -> position.$element.is($dragging))
       element.x = $dragging.position().left
       element.y = $dragging.position().top
-      element.w = $dragging.data('width')  || $dragging.width()
-      element.h = $dragging.data('height') || $dragging.height()
+      element.w = $dragging.data('width')  || $dragging.outerWidth()
+      element.h = $dragging.data('height') || $dragging.outerHeight()
 
     positions.sort @compare
 
@@ -202,7 +202,7 @@ class Gridly
     @layout()
 
   size: ($element) =>
-    (($element.data('width') || $element.width()) + @settings.gutter) / (@settings.base + @settings.gutter)
+    (($element.data('width') || $element.outerWidth()) + @settings.gutter) / (@settings.base + @settings.gutter)
 
   position: ($element, columns) =>
     size = @size($element)
@@ -217,7 +217,7 @@ class Gridly
         column = i
 
     for i in [column ... column + size]
-      columns[i] = height + ($element.data('height') || $element.height()) + @settings.gutter
+      columns[i] = height + ($element.data('height') || $element.outerHeight()) + @settings.gutter
 
     x: (column * (@settings.base + @settings.gutter))
     y: height
@@ -233,8 +233,8 @@ class Gridly
       positions.push
         x: position.x
         y: position.y
-        w: $element.data('width') || $element.width()
-        h: $element.data('height') || $element.height()
+        w: $element.data('width') || $element.outerWidth()
+        h: $element.data('height') || $element.outerHeight()
         $element: $element
 
     height: Math.max columns...
