@@ -3,7 +3,7 @@
 /*
 jQuery Gridly
 Copyright 2013 Kevin Sylvestre
-1.2.6
+1.2.7
  */
 
 (function() {
@@ -469,5 +469,3 @@ Copyright 2013 Kevin Sylvestre
   });
 
 }).call(this);
-
-//# sourceMappingURL=jquery.gridly.js.map
