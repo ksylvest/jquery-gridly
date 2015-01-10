@@ -8,48 +8,11 @@ Copyright 2013 Kevin Sylvestre
 
 (function() {
   "use strict";
-  var $, Animation, Draggable, Gridly,
+  var $, Draggable, Gridly,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __slice = [].slice;
 
   $ = jQuery;
-
-  Animation = (function() {
-    function Animation() {}
-
-    Animation.transitions = {
-      "webkitTransition": "webkitTransitionEnd",
-      "mozTransition": "mozTransitionEnd",
-      "oTransition": "oTransitionEnd",
-      "transition": "transitionend"
-    };
-
-    Animation.transition = function($el) {
-      var el, result, type, _ref;
-      el = $el[0];
-      _ref = this.transitions;
-      for (type in _ref) {
-        result = _ref[type];
-        if (el.style[type] != null) {
-          return result;
-        }
-      }
-    };
-
-    Animation.execute = function($el, callback) {
-      var transition;
-      transition = this.transition($el);
-      if (transition != null) {
-        return $el.one(transition, callback);
-      } else {
-        return callback();
-      }
-    };
-
-    return Animation;
-
-  })();
-
   Draggable = (function() {
     function Draggable($container, selector, callbacks) {
       this.touchend = __bind(this.touchend, this);
@@ -171,17 +134,18 @@ Copyright 2013 Kevin Sylvestre
 
   })();
 
-  Gridly = (function() {
+  Gridly = (function(win) {
     Gridly.settings = {
       base: 60,
       gutter: 20,
-      columns: 12,
+	  columns:12,
       draggable: {
         zIndex: 800,
         selector: '> *'
-      }
+      },
+	  responsive: false
     };
-
+	
     Gridly.gridly = function($el, options) {
       var data;
       if (options == null) {
@@ -198,7 +162,7 @@ Copyright 2013 Kevin Sylvestre
     function Gridly($el, settings) {
       if (settings == null) {
         settings = {};
-      }
+      }	  
       this.optimize = __bind(this.optimize, this);
       this.layout = __bind(this.layout, this);
       this.structure = __bind(this.structure, this);
@@ -215,6 +179,21 @@ Copyright 2013 Kevin Sylvestre
       this.ordinalize = __bind(this.ordinalize, this);
       this.$el = $el;
       this.settings = $.extend({}, Gridly.settings, settings);
+	  this.config = {};
+	  if(this.settings.responsive == true || this.settings.columns == undefined || !$.isNumeric(this.settings.columns)){		  
+		  this.config.columns = Math.floor($el.width() / (this.settings.gutter + this.settings.base));
+		  
+		  $(win).resize(function(){
+			var data = $el.data('_gridly');
+			if(!!data){
+				data.config.columns = Math.floor($el.width() / (data.settings.gutter + data.settings.base));
+				setTimeout(data.layout, 0);
+			}
+		  });
+	  } else {
+		this.config.columns = this.settings.columns;
+	  }
+	  	  
       this.ordinalize(this.$('> *'));
       if (this.settings.draggable !== false) {
         this.draggable();
@@ -377,7 +356,7 @@ Copyright 2013 Kevin Sylvestre
       columns = (function() {
         var _i, _ref, _results;
         _results = [];
-        for (i = _i = 0, _ref = this.settings.columns; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        for (i = _i = 0, _ref = this.config.columns; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
           _results.push(0);
         }
         return _results;
@@ -425,12 +404,12 @@ Copyright 2013 Kevin Sylvestre
       results = [];
       columns = 0;
       while (originals.length > 0) {
-        if (columns === this.settings.columns) {
+        if (columns === this.config.columns) {
           columns = 0;
         }
         index = 0;
         for (index = _i = 0, _ref = originals.length; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
-          if (columns + this.size($(originals[index])) <= this.settings.columns) {
+          if (columns + this.size($(originals[index])) <= this.config.columns) {
             break;
           }
         }
@@ -446,7 +425,7 @@ Copyright 2013 Kevin Sylvestre
 
     return Gridly;
 
-  })();
+  })(window);
 
   $.fn.extend({
     gridly: function() {
