@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /// Removes the element's gutter margin, regardless of its position in the grid hierarchy or display property. It can target a specific element, or every `nth-child` occurrence. Works only with `block` layouts.
 ///
 /// @param {List} $query (block)
@@ -57,21 +59,15 @@
     @else {
       @include nth-child($query, $direction);
     }
-  }
-
-  @else if length($query) == 2 {
+  } @else if length($query) == 2 {
     @if $auto {
       &:last-child {
         margin-#{$direction}: 0;
       }
-    }
-
-    @else {
+    } @else {
       @include nth-child(nth($query, 1), $direction);
     }
-  }
-
-  @else {
+  } @else {
     @include -neat-warn("Too many arguments passed to the omega() mixin.");
   }
 }
@@ -83,7 +79,7 @@
     margin-#{$direction}: 0;
   }
 
-  @if type-of($query) == number {
+  @if type-of($query) == number and unit($query) == "n" {
     &:nth-child(#{$query}+1) {
       clear: $opposite-direction;
     }

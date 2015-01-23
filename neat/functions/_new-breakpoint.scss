@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /// Returns a media context (media query / grid context) that can be stored in a variable and passed to `media()` as a single-keyword argument. Media contexts defined using `new-breakpoint` are used by the visual grid, as long as they are defined before importing Neat.
 ///
 /// @param {List} $query
@@ -35,13 +37,11 @@
 @function new-breakpoint($query: $feature $value $columns, $total-columns: $grid-columns) {
   @if length($query) == 1 {
     $query: $default-feature nth($query, 1) $total-columns;
-  }
-
-  @else if is-even(length($query)) {
+  } @else if is-even(length($query)) {
     $query: append($query, $total-columns);
   }
 
-  @if not belongs-to($query, $visual-grid-breakpoints) {
+  @if is-not(belongs-to($query, $visual-grid-breakpoints)) {
     $visual-grid-breakpoints: append($visual-grid-breakpoints, $query, comma) !global;
   }
 
