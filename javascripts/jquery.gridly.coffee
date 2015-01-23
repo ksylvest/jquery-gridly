@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
-Copyright 2013 Kevin Sylvestre
-1.2.7
+Copyright 2015 Kevin Sylvestre
+1.2.8
 ###
 
 "use strict"
@@ -268,7 +268,7 @@ class Gridly
 
       index = 0
       for index in [0...originals.length]
-        break if columns + @size($(originals[index])) <= @settings.columns
+        break unless columns + @size($(originals[index])) > @settings.columns
 
       if index is originals.length
         index = 0

@@ -2,8 +2,8 @@
 
 /*
 jQuery Gridly
-Copyright 2013 Kevin Sylvestre
-1.2.7
+Copyright 2015 Kevin Sylvestre
+1.2.8
  */
 
 (function() {
@@ -430,7 +430,7 @@ Copyright 2013 Kevin Sylvestre
         }
         index = 0;
         for (index = _i = 0, _ref = originals.length; 0 <= _ref ? _i < _ref : _i > _ref; index = 0 <= _ref ? ++_i : --_i) {
-          if (columns + this.size($(originals[index])) <= this.settings.columns) {
+          if (!(columns + this.size($(originals[index])) > this.settings.columns)) {
             break;
           }
         }
