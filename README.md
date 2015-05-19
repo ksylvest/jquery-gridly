@@ -90,6 +90,13 @@ When using the drag and drop sorting callbacks can be passed in when initializin
       callbacks: { reordering: reordering , reordered: reordered }
     });
 
+### Disbleling drag and drop
+
+```
+$('.gridly').gridly('draggable', 'off'); // Will disable dragging.
+$('.gridly').gridly('draggable', 'on);  // Will enable dragging.
+```
+
 ## Status
 
 [![Status](https://travis-ci.org/ksylvest/jquery-gridly.png)](https://travis-ci.org/ksylvest/jquery-gridly)
