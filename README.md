@@ -86,9 +86,16 @@ When using the drag and drop sorting callbacks can be passed in when initializin
       // Called after the drag and drop ends with the elements in their ending position.
     };
 
-    $('.wall .bricks').gridly({
+    $('.gridly').gridly({
       callbacks: { reordering: reordering , reordered: reordered }
     });
+
+### Disbleling drag and drop
+
+```
+$('.gridly').gridly('draggable', 'off'); // Will disable dragging.
+$('.gridly').gridly('draggable', 'on);  // Will enable dragging.
+```
 
 ## Status
 
