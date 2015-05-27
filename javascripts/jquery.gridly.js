@@ -189,10 +189,10 @@ Copyright 2015 Kevin Sylvestre
       }
       data = $el.data('_gridly');
       if (data) {
+        $.extend(data.settings, options);
+      } else {
         data = new Gridly($el, options);
         $el.data('_gridly', data);
-      } else {
-        $.extend(data.settings, options);
       }
       return data;
     };
