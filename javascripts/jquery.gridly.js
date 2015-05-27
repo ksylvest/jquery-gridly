@@ -3,7 +3,7 @@
 /*
 jQuery Gridly
 Copyright 2015 Kevin Sylvestre
-1.2.8
+1.2.9
  */
 
 (function() {
