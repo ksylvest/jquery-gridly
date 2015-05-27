@@ -114,7 +114,9 @@ class Gridly
 
   @gridly: ($el, options = {}) ->
     data = $el.data('_gridly')
-    unless data
+    if data
+      $.extend data.settings, options
+    else
       data = new Gridly($el, options)
       $el.data('_gridly', data)
     return data
