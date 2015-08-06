@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Untitled Document</title>
+        <script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+        <script src="jquery.gridly/javascripts/jquery.gridly.js" type="text/javascript"></script>
+        <link href="jquery.gridly/stylesheets/jquery.gridly.css" rel="stylesheet" type="text/css" />
+
+        <style type="text/css">
+            .gridly {
+                position: relative;
+                width: 960px;
+            }
+            .brick.unselected {
+                width: 140px;
+                height: 140px;
+                background:#7F8C8D;
+                cursor:pointer;
+            }
+            .brick.selected {
+                width: 140px;
+                height: 140px;
+                background:#15B7C3;
+                cursor:pointer;
+            }
+        </style>
+    </head>
+
+    <body>
+        <form name="video_list" id="video_list">
+            <div class="gridly">
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="1" /> 1</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="2" /> 2</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="3" /> 3</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="4" /> 4</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="5" /> 5</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="6" /> 6</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="7" /> 7</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="8" /> 8</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="9" /> 9</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="10" /> 10</div>
+            </div>
+        </form>
+        <form name="video_list_1" id="video_list">
+            <div class="gridly">
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="1" /> 1</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="2" /> 2</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="3" /> 3</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="4" /> 4</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="5" /> 5</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="6" /> 6</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="7" /> 7</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="8" /> 8</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="9" /> 9</div>
+                <div class="brick unselected"><input class="video_class" type="checkbox" name="videos" value="10" /> 10</div>
+            </div>
+        </form>
+        <script type="text/javascript">
+            $('.gridly').gridly({
+                base: 60, // px 
+                gutter: 20, // px
+                columns: 12,
+                callbacks: {
+                    reordered: function(elements){
+                        _call(elements);
+                    }
+                }
+            });
+            
+            function _call(elements){
+                //console.log(elements);
+                elements.each(function(index){
+//                    console.log(index);
+                    console.log(elements[index]);
+                });
+            }
+            
+        </script>
+    </body>
+</html>
