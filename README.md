@@ -94,6 +94,13 @@ When using the drag and drop sorting callbacks can be passed in when initializin
     $('.gridly').gridly('draggable', 'off'); // disables dragging
     $('.gridly').gridly('draggable', 'on);  // enables dragging
 
+## Contributing
+
+Gridly is maintained in `CoffeeScript`. All contributions need to be submitted in `CoffeeScript`. The project includes a `Cakefile` that can be used to compile all assets (see: `cake watch`). For more information about `CoffeeScript` see:
+
+ - http://coffeescript.org/
+ - http://arcturo.github.io/library/coffeescript/
+
 ## Status
 
 [![Status](https://travis-ci.org/ksylvest/jquery-gridly.png)](https://travis-ci.org/ksylvest/jquery-gridly)
