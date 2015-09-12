@@ -1,0 +1,17 @@
+{
+  "name": "jquery.gridly",
+  "version": "1.2.9",
+  "description": "Gridly is a jQuery plugin to enable dragging and dropping as well as resizing on a grid.",
+  "main": "./javascripts/jquery.gridly.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksylvest/jquery-gridly.git"
+  },
+  "author": "Kevin Sylvestre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ksylvest/jquery-gridly/issues"
+  },
+  "homepage": "https://github.com/ksylvest/jquery-gridly#readme"
+}
+
