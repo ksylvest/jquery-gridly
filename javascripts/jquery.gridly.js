@@ -201,6 +201,7 @@ Copyright 2015 Kevin Sylvestre
       if (settings == null) {
         settings = {};
       }
+      settings.columns*=2;
       this.optimize = bind(this.optimize, this);
       this.layout = bind(this.layout, this);
       this.structure = bind(this.structure, this);
