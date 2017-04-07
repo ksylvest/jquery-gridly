@@ -7,7 +7,7 @@ Gridly is a jQuery plugin to enable dragging and dropping as well as resizing on
 To install copy the *javascripts* and *stylesheets* directories into your project and add the following snippet to the header:
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
-    <script src="javascript/jquery.gridly.js" type="text/javascript"></script>
+    <script src="javascripts/jquery.gridly.js" type="text/javascript"></script>
     <link href="stylesheets/jquery.gridly.css" rel="stylesheet" type="text/css" />
 
 This plugin is also registered under http://bower.io/ to simplify integration. Try:
