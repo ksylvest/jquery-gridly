@@ -1,7 +1,7 @@
 ###
 jQuery Gridly
-Copyright 2015 Kevin Sylvestre
-1.2.9
+Copyright 2020 Kevin Sylvestre
+1.3.0
 ###
 
 "use strict"
