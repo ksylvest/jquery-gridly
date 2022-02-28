@@ -1,36 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset='UTF-8'>
-<title>jQuery Gridly</title>
-<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-<link href='stylesheets/jquery.gridly.css' rel='stylesheet' type='text/css'>
-<link href='stylesheets/sample.css' rel='stylesheet' type='text/css'>
-<script src='javascripts/jquery.js' type='text/javascript'></script>
-<script src='javascripts/jquery.gridly.js' type='text/javascript'></script>
-<script src='javascripts/sample.js' type='text/javascript'></script>
-<script src='javascripts/rainbow.js' type='text/javascript'></script>
-<script>
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-31911059-1']);
-  _gaq.push(['_trackPageview']);
-  
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-</meta>
-</head>
 <body>
-<a href='https://github.com/ksylvest/jquery-gridly'>
-<img alt='Fork' class='fork' src='images/fork.png'>
-</a>
-<div class='content'>
-<h1>jQuery Gridly</h1>
-<p>Gridly is a jQuery plugin to enable dragging and dropping as well as resizing on a grids. In the example below try tapping or dragging any of the bricks.</p>
-<h2>Example</h2>
 <section class='example'>
 <div class='gridly'>
 <div class='brick small'>
@@ -98,29 +68,6 @@
 <a class='add button' href='#'>Add</a>
 </p>
 </section>
-<h2>Installation</h2>
-<p>To install download one of these packages and include the jquery.gridly.js and jquery.gridly.css files in your head with the following:</p>
-<section class='formats'>
-<div class='format'>
-<a class='zip' href='packages/jquery.gridly.zip'></a>
-</div>
-<div class='format'>
-<a class='tar' href='packages/jquery.gridly.tar'></a>
-</div>
-</section>
-<pre><code data-language='html'>&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&#x000A;&lt;script src=&quot;javascript/jquery.gridly.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&#x000A;&lt;link href=&quot;stylesheets/jquery.gridly.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;</code></pre>
-<h2>Example</h2>
-<p>Setting up a gridly is easy. The following snippet is a good start:</p>
-<pre><code data-language='html'>&lt;style type=&quot;text/css&quot;&gt;&#x000A;  .gridly {&#x000A;    position: relative;&#x000A;    width: 960px;&#x000A;  }&#x000A;  .brick.small {&#x000A;    width: 140px;&#x000A;    height: 140px;&#x000A;  }&#x000A;  .brick.large {&#x000A;    width: 300px;&#x000A;    height: 300px;&#x000A;  }&#x000A;&lt;/style&gt;&#x000A;&lt;div class=&quot;gridly&quot;&gt;&#x000A;  &lt;div class=&quot;brick small&quot;&gt;&lt;/div&gt;&#x000A;  &lt;div class=&quot;brick small&quot;&gt;&lt;/div&gt;&#x000A;  &lt;div class=&quot;brick large&quot;&gt;&lt;/div&gt;&#x000A;  &lt;div class=&quot;brick small&quot;&gt;&lt;/div&gt;&#x000A;  &lt;div class=&quot;brick small&quot;&gt;&lt;/div&gt;&#x000A;  &lt;div class=&quot;brick large&quot;&gt;&lt;/div&gt;&#x000A;&lt;/div&gt;&#x000A;&lt;script&gt;&#x000A;  $(&#39;.gridly&#39;).gridly({&#x000A;    base: 60, // px &#x000A;    gutter: 20, // px&#x000A;    columns: 12&#x000A;  });&#x000A;&lt;/script&gt;</code></pre>
-<p class='copy'>
-Copyright (c) 2013 - 2015
-<a href='http://ksylvest.com/'>Kevin Sylvestre</a>
-</p>
-<p class='links'>
-<a href='https://github.com/ksylvest'>GitHub</a>
-<a href='https://plus.google.com/+KevinSylvestre?rel=author'>Google</a>
-<a href='https://twitter.com/ksylvest'>Twitter</a>
-</p>
 </div>
 </body>
 </html>
