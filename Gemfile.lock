@@ -1,8 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    bourbon (7.0.0)
-      thor (~> 1.0)
     ffi (1.13.1)
     haml (5.1.2)
       temple (>= 0.8.0)
@@ -16,11 +14,8 @@ GEM
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    neat (1.7.4)
-      bourbon (>= 4.0)
-      sass (>= 3.3)
     phantomjs (2.1.1.0)
-    rack (2.2.3)
+    rack (3.0.7)
     rake (13.0.1)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
@@ -31,18 +26,15 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     temple (0.8.2)
-    thor (1.0.1)
     tilt (2.0.10)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  bourbon
   haml
   jasmine
   listen
-  neat
   rake
   sass
 
